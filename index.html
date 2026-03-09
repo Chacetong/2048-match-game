@@ -27,25 +27,15 @@
                     <div class="score-value" id="best-score">0</div>
                 </div>
             </div>
-            
+
             <div class="style-container" style="margin-top: 20px;">
                 <span style="color: #856e63; font-size: 14px; margin-right: 10px;">Style</span>
                 <button class="btn-style active" onclick="switchStyle('type_01', this)">01</button>
                 <button class="btn-style" onclick="switchStyle('type_02', this)">02</button>
                 <button class="btn-style" onclick="switchStyle('type_03', this)">03</button>
             </div>
-            
-            <!-- 道具区域 -->
-            <div class="props-container">
-                <div class="prop-item" id="prop-return" onclick="undoMove()" title="撤销上一步">
-                    <img src="Assets/prop_undo_off.png" alt="撤销" id="prop-return-img" class="prop-img">
-                    <span class="prop-label">Undo</span>
-                </div>
-                <div class="prop-item" id="prop-switch" onclick="toggleSwitchMode()" title="交换两个棋子">
-                    <img src="Assets/prop_switch_off.png" alt="交换" id="prop-switch-img" class="prop-img">
-                    <span class="prop-label">Switch</span>
-                </div>
-            </div>
+
+
         </header>
 
         <div class="game-container">
@@ -73,6 +63,20 @@
             </div>
         </div>
 
+        <!-- 道具区域 -->
+        <div class="props-container">
+            <div class="prop-item" id="prop-return" onclick="undoMove()" title="撤销上一步">
+                <img src="Assets/prop_undo_off.png" alt="撤销" id="prop-return-img" class="prop-img">
+                <span class="prop-label">Undo</span>
+            </div>
+            <div class="prop-item" id="prop-switch" onclick="toggleSwitchMode()" title="交换两个棋子">
+                <img src="Assets/prop_switch_off.png" alt="交换" id="prop-switch-img" class="prop-img">
+                <span class="prop-label">Switch</span>
+            </div>
+        </div>
+
+
+        <!-- 重开 -->
         <div class="start-container">
             <button class="btn" onclick="newGame()">New Game</button>
         </div>
@@ -81,7 +85,7 @@
             <p><strong>玩法：</strong>使用方向键 ↑↓←→ 或滑动屏幕移动方块</p>
             <p>相同数字的方块相撞时会合并，目标是得到 2048！</p>
         </div>
-        
+
         <!-- Toast 提示 -->
         <div id="toast" class="toast">依次点击两个不同的棋子进行交换</div>
     </div>

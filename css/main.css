@@ -75,13 +75,13 @@ h1 {
 .score-container {
     display: flex;
     justify-content: center;
-    gap: 16px;
+    gap: 8px;
     margin: 16px 0;
 }
 
 .score-box {
     background: rgba(255, 255, 255, 0.6);
-    padding: 12px 8px;
+    padding: 8px 8px;
     width: 128px;
     text-align: center;
     border-radius: 12px;
@@ -105,11 +105,11 @@ h1 {
     background: rgba(255, 255, 255, 0);
     color: #579b62;
     border: 1.5px solid rgba(87, 155, 98, 0.4);
-    padding: 6px 16px;
-    border-radius: 12px;
+    padding: 4px 16px;
+    border-radius: 20px;
     font-size: 16px;
     transition: all 0.2s ease;
-    margin: 0 5px;
+    /* margin: 0 2px; */
 }
 
 .btn-style:hover {
@@ -125,10 +125,10 @@ h1 {
 /* 游戏容器 */
 .game-container {
     background: rgba(255, 255, 255, 0.4);
-    padding: 15px;
-    border-radius: 16px;
+    padding: 16px;
+    border-radius: 32px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
+    margin: 24px auto;
     position: relative;
 }
 
