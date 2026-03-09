@@ -1,0 +1,428 @@
+/* 2048 游戏 - 莫兰迪风格样式表 */
+
+/* Google Fonts - Poetsen One */
+@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poetsen One', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: linear-gradient(135deg, #e8e0d5 0%, #d4c8b8 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    max-width: 500px;
+    width: 100%;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #492310;
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    /* text-shadow: 0px 2px 0px rgba(106, 68, 129, 0.8); */
+}
+
+.start-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 15px 0;
+}
+
+.score-container {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin: 15px 0;
+}
+
+.score-box {
+    background: rgba(255, 255, 255, 0.6);
+    padding: 12px 8px;
+    /* 修改 padding，左右靠固定宽度撑开 */
+    width: 128px;
+    /* 设置固定宽度 */
+    text-align: center;
+    /* 内容居中 */
+    border-radius: 12px;
+    /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); */
+}
+
+.score-label {
+    color: #9a8b7a;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.score-value {
+    color: #6b5d4d;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.btn {
+    background: #a69888;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn:hover {
+    background: #8f8273;
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-style {
+    background: rgba(255, 255, 255, 0.4);
+    color: #492310;
+    border: 1px solid #a69888;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin: 0 5px;
+}
+
+.btn-style:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.btn-style.active {
+    background: #a69888;
+    color: white;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game-container {
+    background: rgba(255, 255, 255, 0.4);
+    padding: 15px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    position: relative;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: rgba(187, 173, 160, 0.3);
+    padding: 2px;
+    border-radius: 12px;
+}
+
+.grid-cell {
+    width: 100%;
+    aspect-ratio: 1;
+    background: rgba(238, 228, 218, 0.6);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 600;
+    color: #6b5d4d;
+    transition: all 0.15s ease;
+    position: relative;
+    /* 取消溢出隐藏，允许底面显示 */
+    overflow: visible;
+    /* 空位基础层级 */
+    z-index: 1;
+}
+
+.tile-text {
+    position: relative;
+    z-index: 5;
+    /* 确保在 tile-bg 之上 */
+}
+
+/* 行级 z-index：只有非空棋子才应用，且下一行遮盖上一行 */
+.is-tile.row-0 {
+    z-index: 10;
+}
+
+.is-tile.row-1 {
+    z-index: 20;
+}
+
+.is-tile.row-2 {
+    z-index: 30;
+}
+
+.is-tile.row-3 {
+    z-index: 40;
+}
+
+/* 动画效果 */
+.tile-new {
+    animation: appear 0.2s ease-in-out;
+}
+
+.tile-merge {
+    animation: pop 0.2s ease-in-out;
+}
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* 图片背景模式 */
+.grid-cell.has-image {
+    background: transparent;
+}
+
+.tile-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 116.67%;
+    /* 280/240 = 1.1667 */
+    background-size: 100% 100%;
+    background-position: top center;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    display: none;
+    /* 默认隐藏 */
+}
+
+.grid-cell.has-image .tile-bg {
+    display: block;
+}
+
+.grid-cell.has-image .tile-text {
+    display: block;
+}
+
+/* 默认 CSS 样式 */
+.tile-2 {
+    background: #c9b27d;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 48px;
+}
+
+.tile-4 {
+    background: #a7b46b;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 48px;
+}
+
+.tile-8 {
+    background: #8bac67;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 48px;
+}
+
+.tile-16 {
+    background: #78b9ad;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 48px;
+}
+
+.tile-32 {
+    background: #5a91a9;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 48px;
+}
+
+.tile-64 {
+    background: #625fa4;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 48px;
+}
+
+.tile-128 {
+    background: #653393;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 40px;
+}
+
+.tile-256 {
+    background: #5b2662;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 40px;
+}
+
+.tile-512 {
+    background: #5f1754;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 40px;
+}
+
+.tile-1024 {
+    background: #690b31;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 32px;
+}
+
+.tile-2048 {
+    background: #1c1c1c;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 32px;
+    animation: glow 1.5s ease-in-out infinite;
+}
+
+.tile-super {
+    background: #9a8b9a;
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 18px;
+}
+
+@keyframes glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(122, 143, 117, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 30px rgba(122, 143, 117, 0.8);
+    }
+}
+
+.instructions {
+    text-align: center;
+    color: #8b7e6a;
+    font-size: 14px;
+    margin-top: 15px;
+    line-height: 1.6;
+}
+
+.game-over,
+.game-won {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(232, 224, 213, 0.95);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.game-over.show,
+.game-won.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.game-over h2,
+.game-won h2 {
+    color: #8b7e6a;
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+
+.game-won h2 {
+    color: #7a8f75;
+}
+
+.mobile-controls {
+    display: none;
+    margin-top: 20px;
+}
+
+.mobile-row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 10px 0;
+}
+
+.mobile-btn {
+    width: 70px;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.6);
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    color: #8b7e6a;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-btn:active {
+    background: rgba(255, 255, 255, 0.9);
+    transform: scale(0.95);
+}
+
+@media (max-width: 500px) {
+    h1 {
+        font-size: 36px;
+    }
+
+    .grid-cell {
+        font-size: 22px;
+    }
+
+    .tile-128,
+    .tile-256,
+    .tile-512 {
+        font-size: 18px;
+    }
+
+    .tile-1024,
+    .tile-2048 {
+        font-size: 16px;
+    }
+
+    .mobile-controls {
+        display: block;
+    }
+}

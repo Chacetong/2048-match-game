@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048对对碰</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>对对碰</h1>
+            <div class="score-container">
+                <div class="score-box">
+                    <div class="score-label">得分</div>
+                    <div class="score-value" id="score">0</div>
+                </div>
+                <div class="score-box">
+                    <div class="score-label">最高分</div>
+                    <div class="score-value" id="best-score">0</div>
+                </div>
+            </div>
+            <!-- <button class="btn" onclick="newGame()">新游戏</button> -->
+            <div class="style-container" style="margin-top: 15px;">
+                <span style="color: #856e63; font-size: 14px; margin-right: 10px;">Style</span>
+                <button class="btn-style active" onclick="switchStyle('type_01', this)">01</button>
+                <button class="btn-style" onclick="switchStyle('type_02', this)">02</button>
+                <button class="btn-style" onclick="switchStyle('type_03', this)">03</button>
+            </div>
+        </header>
+
+        <div class="game-container">
+            <div class="grid-container" id="grid"></div>
+
+            <div class="game-over" id="game-over">
+                <h2>游戏结束</h2>
+                <button class="btn" onclick="newGame()">再试一次</button>
+            </div>
+
+            <div class="game-won" id="game-won">
+                <h2>🎉 恭喜获胜！</h2>
+                <button class="btn" onclick="continueGame()">继续游戏</button>
+            </div>
+        </div>
+
+        <div class="mobile-controls">
+            <div class="mobile-row">
+                <button class="mobile-btn" onclick="move('up')">↑</button>
+            </div>
+            <div class="mobile-row">
+                <button class="mobile-btn" onclick="move('left')">←</button>
+                <button class="mobile-btn" onclick="move('down')">↓</button>
+                <button class="mobile-btn" onclick="move('right')">→</button>
+            </div>
+        </div>
+
+        <div class="start-container">
+            <button class="btn" onclick="newGame()">新游戏</button>
+        </div>
+
+        <div class="instructions">
+            <p><strong>玩法：</strong>使用方向键 ↑↓←→ 或滑动屏幕移动方块</p>
+            <p>相同数字的方块相撞时会合并，目标是得到 2048！</p>
+        </div>
+    </div>
+
+    <script>
+        // ==================== 游戏配置区域 ====================
+        // 
+        // 【棋子样式配置】
+        // 你可以在这里轻松修改每个数字的显示样式！
+        // 
+        // 配置方式一：CSS 样式（推荐简单使用）
+        //   style: { background: '颜色', color: '文字颜色', fontSize: '字号' }
+        //
+        // 配置方式二：图片背景
+        //   image: '图片路径'  (可以是相对路径或网址)
+        //   如果有 image，会优先使用图片，忽略 style 设置
+        //
+        // =====================================================
+        // 是否快速隐藏数字？ (true: 隐藏, false: 显示)
+        const HIDE_NUMBERS = true;
+
+        // 当前切题风格集合 (type_01, type_02, type_03)
+        let currentStyleSet = 'type_01';
+        // =====================================================
+
+        const tileStyles = {
+            // 默认空格子样式
+            0: {
+                style: { background: 'rgba(238, 228, 218, 0.6)', color: 'transparent' }
+            },
+
+            // 通用图片配置获取函数
+            getImage: (value) => `Assets/item/${currentStyleSet}/img_bg_${value}.png`
+        };
+
+        // 获取指定数字的配置
+        function getTileConfig(value) {
+            if (value === 0) return tileStyles[0];
+            return { image: tileStyles.getImage(value > 2048 ? 2048 : value) };
+        }
+
+        // ==================== 游戏状态 ====================
+        let board = [];
+        let score = 0;
+        let bestScore = 0;  // 只在单次会话保留，不存 localStorage
+        let hasWon = false;
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        // ==================== 游戏初始化 ====================
+        function init() {
+            // 创建网格 DOM
+            createGridDOM();
+            // 初始化游戏状态
+            board = Array(4).fill(null).map(() => Array(4).fill(0));
+            score = 0;
+            hasWon = false;
+            updateScore();
+            hideOverlays();
+            addNewTile();
+            addNewTile();
+            render();
+        }
+
+        function createGridDOM() {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+            for (let r = 0; r < 4; r++) {
+                for (let c = 0; c < 4; c++) {
+                    const cell = document.createElement('div');
+                    cell.className = `grid-cell row-${r}`;
+                    cell.id = `cell-${r}-${c}`;
+                    // 背景图片容器（用于支持溢出显示）
+                    const bgDiv = document.createElement('div');
+                    bgDiv.className = 'tile-bg';
+                    cell.appendChild(bgDiv);
+                    // 内部文本容器
+                    const textSpan = document.createElement('span');
+                    textSpan.className = 'tile-text';
+                    cell.appendChild(textSpan);
+                    grid.appendChild(cell);
+                }
+            }
+        }
+
+        function hideOverlays() {
+            document.getElementById('game-over').classList.remove('show');
+            document.getElementById('game-won').classList.remove('show');
+        }
+
+        function addNewTile() {
+            const emptyCells = [];
+            for (let r = 0; r < 4; r++) {
+                for (let c = 0; c < 4; c++) {
+                    if (board[r][c] === 0) {
+                        emptyCells.push({ r, c });
+                    }
+                }
+            }
+            if (emptyCells.length > 0) {
+                const { r, c } = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+                board[r][c] = Math.random() < 0.9 ? 2 : 4;
+                return { r, c, isNew: true };
+            }
+            return null;
+        }
+
+        // ==================== 核心渲染函数（已模块化） ====================
+        function render() {
+            for (let r = 0; r < 4; r++) {
+                for (let c = 0; c < 4; c++) {
+                    const cell = document.getElementById(`cell-${r}-${c}`);
+                    const value = board[r][c];
+                    renderTile(cell, value);
+                }
+            }
+        }
+
+        /**
+         * 渲染单个棋子
+         * @param {HTMLElement} cell - 格子 DOM 元素
+         * @param {number} value - 数字值
+         * @param {boolean} isNew - 是否是新产生的棋子（带动画）
+         * @param {boolean} isMerged - 是否是合并产生的棋子（带动画）
+         */
+        function renderTile(cell, value, isNew = false, isMerged = false) {
+            const config = getTileConfig(value);
+            const textSpan = cell.querySelector('.tile-text');
+            const bgDiv = cell.querySelector('.tile-bg');
+
+            // 重置类名和内联样式
+            const rowClass = Array.from(cell.classList).find(cls => cls.startsWith('row-'));
+            cell.className = `grid-cell ${rowClass}`;
+            bgDiv.removeAttribute('style');
+            cell.removeAttribute('style');
+
+            // 应用图片或样式
+            if (value > 0) {
+                cell.classList.add('is-tile');
+                const className = value <= 2048 ? `tile-${value}` : 'tile-super';
+                cell.classList.add(className);
+
+                if (config.image) {
+                    // 图片模式
+                    cell.classList.add('has-image');
+                    bgDiv.style.backgroundImage = `url(${config.image})`;
+                }
+            } else {
+                cell.classList.remove('is-tile');
+            }
+
+            // 设置文本
+            textSpan.textContent = (value === 0 || HIDE_NUMBERS) ? '' : value;
+
+            // 添加动画类
+            if (isNew) cell.classList.add('tile-new');
+            if (isMerged) cell.classList.add('tile-merge');
+        }
+
+        /**
+         * 更新单个格子的显示（用于动画效果）
+         */
+        function updateCell(r, c, isNew = false, isMerged = false) {
+            const cell = document.getElementById(`cell-${r}-${c}`);
+            const value = board[r][c];
+            renderTile(cell, value, isNew, isMerged);
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+            // 最高分只在单次会话保留，不存入 localStorage
+            if (score > bestScore) {
+                bestScore = score;
+            }
+            document.getElementById('best-score').textContent = bestScore;
+        }
+
+        // ==================== 游戏逻辑 ====================
+
+        // 防止动画期间连续操作
+        let isAnimating = false;
+
+        function move(direction) {
+            if (isAnimating) return;
+
+            // ---- 快照：记录移动前每个非空格子的像素位置 ----
+            const preRects = {};
+            for (let r = 0; r < 4; r++) {
+                for (let c = 0; c < 4; c++) {
+                    if (board[r][c] !== 0) {
+                        preRects[`${r}-${c}`] = document.getElementById(`cell-${r}-${c}`).getBoundingClientRect();
+                    }
+                }
+            }
+
+            // ---- 计算移动结果，同时记录 from→to 映射 ----
+            let moved = false;
+            const mergedPositions = [];
+            const tileMovements = {}; // { 'toR-toC': { fromR, fromC } }
+
+            function slideRow(row, rowIndex, isColumn = false, colIndex = 0) {
+                const originalRow = [...row];
+                const nonZero = [];
+                for (let i = 0; i < row.length; i++) {
+                    if (row[i] !== 0) nonZero.push({ val: row[i], origIdx: i });
+                }
+
+                const resultItems = [];
+                let i = 0;
+                while (i < nonZero.length) {
+                    if (i + 1 < nonZero.length && nonZero[i].val === nonZero[i + 1].val) {
+                        const merged = nonZero[i].val * 2;
+                        score += merged;
+                        if (merged === 2048 && !hasWon) {
+                            hasWon = true;
+                            setTimeout(() => document.getElementById('game-won').classList.add('show'), 200);
+                        }
+                        resultItems.push({ val: merged, merged: true, fromOrigIdx: [nonZero[i].origIdx, nonZero[i + 1].origIdx] });
+                        i += 2;
+                    } else {
+                        resultItems.push({ val: nonZero[i].val, merged: false, fromOrigIdx: [nonZero[i].origIdx] });
+                        i++;
+                    }
+                }
+
+                const result = Array(4).fill(0);
+                for (let j = 0; j < resultItems.length; j++) {
+                    result[j] = resultItems[j].val;
+                    resultItems[j].fromOrigIdx.forEach(fromIdx => {
+                        const fromR = isColumn ? fromIdx : rowIndex;
+                        const fromC = isColumn ? colIndex : fromIdx;
+                        const toR = isColumn ? j : rowIndex;
+                        const toC = isColumn ? colIndex : j;
+                        tileMovements[`${toR}-${toC}`] = { fromR, fromC };
+                    });
+                    if (resultItems[j].merged) {
+                        // 记录合并位置，以及合并前的原始值（合并值的一半）
+                        const fromValue = resultItems[j].val / 2;
+                        if (isColumn) mergedPositions.push({ r: j, c: colIndex, fromValue });
+                        else mergedPositions.push({ r: rowIndex, c: j, fromValue });
+                    }
+                }
+
+                return { result, changed: JSON.stringify(result) !== JSON.stringify(originalRow) };
+            }
+
+            if (direction === 'left') {
+                for (let r = 0; r < 4; r++) {
+                    const { result, changed } = slideRow(board[r], r);
+                    if (changed) { moved = true; board[r] = result; }
+                }
+            } else if (direction === 'right') {
+                for (let r = 0; r < 4; r++) {
+                    const reversed = [...board[r]].reverse();
+                    const { result, changed } = slideRow(reversed, r);
+                    if (changed) {
+                        moved = true;
+                        board[r] = [...result].reverse();
+                        // 修正坐标（镜像列）
+                        const keysToFix = Object.keys(tileMovements).filter(k => {
+                            const [tr] = k.split('-').map(Number); return tr === r;
+                        });
+                        keysToFix.forEach(k => {
+                            const [, tc] = k.split('-').map(Number);
+                            const m = tileMovements[k];
+                            if (m.fromR === r) m.fromC = 3 - m.fromC;
+                            tileMovements[`${r}-${3 - tc}`] = m;
+                            delete tileMovements[k];
+                        });
+                        mergedPositions.forEach(pos => { if (pos.r === r) pos.c = 3 - pos.c; });
+                    }
+                }
+            } else if (direction === 'up') {
+                for (let c = 0; c < 4; c++) {
+                    const col = [board[0][c], board[1][c], board[2][c], board[3][c]];
+                    const { result, changed } = slideRow(col, 0, true, c);
+                    if (changed) {
+                        moved = true;
+                        for (let r = 0; r < 4; r++) board[r][c] = result[r];
+                    }
+                }
+            } else if (direction === 'down') {
+                for (let c = 0; c < 4; c++) {
+                    const col = [board[0][c], board[1][c], board[2][c], board[3][c]];
+                    const { result, changed } = slideRow([...col].reverse(), 0, true, c);
+                    if (changed) {
+                        moved = true;
+                        const finalResult = [...result].reverse();
+                        for (let r = 0; r < 4; r++) board[r][c] = finalResult[r];
+                        // 修正坐标（镜像行）
+                        const keysToFix = Object.keys(tileMovements).filter(k => {
+                            const [, tc] = k.split('-').map(Number); return tc === c;
+                        });
+                        keysToFix.forEach(k => {
+                            const [tr] = k.split('-').map(Number);
+                            const m = tileMovements[k];
+                            if (m.fromC === c) m.fromR = 3 - m.fromR;
+                            tileMovements[`${3 - tr}-${c}`] = m;
+                            delete tileMovements[k];
+                        });
+                        mergedPositions.forEach(pos => { if (pos.c === c) pos.r = 3 - pos.r; });
+                    }
+                }
+            }
+
+            if (!moved) return;
+
+            isAnimating = true;
+            updateScore();
+            // 渲染状态：合并位置先显示为原始值，等动画完成后再显示为合并后的值
+            for (let r = 0; r < 4; r++) {
+                for (let c = 0; c < 4; c++) {
+                    const cell = document.getElementById(`cell-${r}-${c}`);
+                    const mergedInfo = mergedPositions.find(p => p.r === r && p.c === c);
+                    if (mergedInfo) {
+                        // 合并位置暂时显示为原始值
+                        renderTile(cell, mergedInfo.fromValue, false, false);
+                    } else {
+                        renderTile(cell, board[r][c], false, false);
+                    }
+                }
+            }
+
+            // ---- 对移动的棋子施加偏移，再过渡回 0 ----
+            requestAnimationFrame(() => {
+                for (const [toKey, { fromR, fromC }] of Object.entries(tileMovements)) {
+                    const [toR, toC] = toKey.split('-').map(Number);
+                    const toCell = document.getElementById(`cell-${toR}-${toC}`);
+                    if (!toCell.classList.contains('is-tile')) continue;
+
+                    const fromRect = preRects[`${fromR}-${fromC}`];
+                    if (!fromRect) continue;
+
+                    const toRect = toCell.getBoundingClientRect();
+                    const dx = fromRect.left - toRect.left;
+                    const dy = fromRect.top - toRect.top;
+
+                    if (dx === 0 && dy === 0) continue;
+
+                    // 先瞬间移到来源位置
+                    toCell.style.transition = 'none';
+                    toCell.style.transform = `translate(${dx}px, ${dy}px)`;
+
+                    // 下一帧平滑归位
+                    requestAnimationFrame(() => {
+                        toCell.style.transition = 'transform 200ms ease-out';
+                        toCell.style.transform = 'translate(0, 0)';
+                    });
+                }
+
+                // 动画结束后，添加新棋子和合并效果
+                setTimeout(() => {
+                    for (const toKey of Object.keys(tileMovements)) {
+                        const [toR, toC] = toKey.split('-').map(Number);
+                        const toCell = document.getElementById(`cell-${toR}-${toC}`);
+                        toCell.style.transition = '';
+                        toCell.style.transform = '';
+                    }
+
+                    const newTile = addNewTile();
+                    if (newTile) updateCell(newTile.r, newTile.c, true, false);
+                    // 动画完成后，将合并位置更新为合成后的值，并添加合并动画
+                    mergedPositions.forEach(pos => updateCell(pos.r, pos.c, false, true));
+
+                    if (isGameOver()) {
+                        setTimeout(() => document.getElementById('game-over').classList.add('show'), 300);
+                    }
+
+                    isAnimating = false;
+                }, 210);
+            });
+        }
+
+        function isGameOver() {
+            for (let r = 0; r < 4; r++) {
+                for (let c = 0; c < 4; c++) {
+                    if (board[r][c] === 0) return false;
+                    if (c < 3 && board[r][c] === board[r][c + 1]) return false;
+                    if (r < 3 && board[r][c] === board[r + 1][c]) return false;
+                }
+            }
+            return true;
+        }
+
+        function newGame() {
+            init();
+        }
+
+        function continueGame() {
+            document.getElementById('game-won').classList.remove('show');
+        }
+
+        function switchStyle(styleSet, btn) {
+            currentStyleSet = styleSet;
+
+            // 更新按钮激活状态
+            document.querySelectorAll('.btn-style').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // 重新渲染全部格子
+            render();
+        }
+
+        // ==================== 事件监听 ====================
+        document.addEventListener('keydown', (e) => {
+            switch (e.key) {
+                case 'ArrowUp': e.preventDefault(); move('up'); break;
+                case 'ArrowDown': e.preventDefault(); move('down'); break;
+                case 'ArrowLeft': e.preventDefault(); move('left'); break;
+                case 'ArrowRight': e.preventDefault(); move('right'); break;
+            }
+        });
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const touchEndY = e.changedTouches[0].clientY;
+            const dx = touchEndX - touchStartX;
+            const dy = touchEndY - touchStartY;
+            const minSwipeDistance = 50;
+
+            if (Math.abs(dx) > Math.abs(dy)) {
+                if (Math.abs(dx) > minSwipeDistance) {
+                    dx > 0 ? move('right') : move('left');
+                }
+            } else {
+                if (Math.abs(dy) > minSwipeDistance) {
+                    dy > 0 ? move('down') : move('up');
+                }
+            }
+        }, { passive: true });
+
+        document.addEventListener('touchmove', (e) => {
+            if (e.target.closest('.game-container')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // 初始化
+        init();
+    </script>
+</body>
+
+</html>
