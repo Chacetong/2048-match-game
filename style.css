@@ -162,6 +162,27 @@ h1 {
     margin-top: 4px;
 }
 
+/* 交换道具激活状态 */
+.prop-item.active {
+    filter: brightness(1.2);
+}
+
+.prop-item.active .prop-img {
+    box-shadow: 0 0 12px rgba(87, 155, 98, 0.6);
+}
+
+/* 格子选中状态（交换模式） */
+.grid-cell.cell-selected {
+    box-shadow: 0 0 0 4px #579b62, 0 0 20px rgba(87, 155, 98, 0.5);
+    z-index: 10;
+    animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
 .game-container {
     background: rgba(255, 255, 255, 0.4);
     padding: 15px;

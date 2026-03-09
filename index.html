@@ -63,6 +63,10 @@
                 <img src="Assets/prop_undo_off.png" alt="撤销" id="prop-return-img" class="prop-img">
                 <span class="prop-label">Undo</span>
             </div>
+            <div class="prop-item" id="prop-switch" onclick="toggleSwitchMode()" title="交换两个棋子">
+                <img src="Assets/prop_switch_off.png" alt="交换" id="prop-switch-img" class="prop-img">
+                <span class="prop-label">Switch</span>
+            </div>
         </div>
 
         <div class="start-container">
@@ -123,6 +127,10 @@
         // ==================== 撤销功能状态 ====================
         let historyStack = [];  // 历史记录栈，保存多步状态 [{board: [...], score: number}, ...]
 
+        // ==================== 交换道具状态 ====================
+        let isSwitchMode = false;  // 是否处于交换模式
+        let selectedCell = null;   // 选中的第一个棋子 {r, c}
+
         // ==================== 游戏初始化 ====================
         function init() {
             // 创建网格 DOM
@@ -132,6 +140,7 @@
             score = 0;
             hasWon = false;
             historyStack = [];  // 重置历史栈
+            exitSwitchMode();  // 重置交换模式
             updateScore();
             updateUndoButton();  // 更新撤销按钮状态
             hideOverlays();
@@ -180,6 +189,132 @@
             // 更新显示
             updateScore();
             updateUndoButton();
+            render();
+        }
+
+        // ==================== 交换道具功能 ====================
+
+        // 切换交换模式
+        function toggleSwitchMode() {
+            if (isAnimating) return;
+            
+            if (isSwitchMode) {
+                exitSwitchMode();
+            } else {
+                enterSwitchMode();
+            }
+        }
+
+        // 进入交换模式
+        function enterSwitchMode() {
+            isSwitchMode = true;
+            selectedCell = null;
+            updateSwitchButton();
+            // 为所有有棋子的格子添加点击事件
+            attachSwitchClickHandlers();
+        }
+
+        // 退出交换模式
+        function exitSwitchMode() {
+            isSwitchMode = false;
+            // 清除选中状态
+            if (selectedCell) {
+                const cell = document.getElementById(`cell-${selectedCell.r}-${selectedCell.c}`);
+                if (cell) cell.classList.remove('cell-selected');
+                selectedCell = null;
+            }
+            updateSwitchButton();
+            // 移除点击事件
+            detachSwitchClickHandlers();
+        }
+
+        // 更新交换按钮状态
+        function updateSwitchButton() {
+            const propItem = document.getElementById('prop-switch');
+            const propImg = document.getElementById('prop-switch-img');
+            
+            if (isSwitchMode) {
+                // 激活状态
+                propItem.classList.add('active');
+                propImg.src = 'Assets/prop_switch_on.png';
+            } else {
+                // 非激活状态
+                propItem.classList.remove('active');
+                propImg.src = 'Assets/prop_switch_off.png';
+            }
+        }
+
+        // 为格子添加交换点击事件
+        function attachSwitchClickHandlers() {
+            for (let r = 0; r < 4; r++) {
+                for (let c = 0; c < 4; c++) {
+                    const cell = document.getElementById(`cell-${r}-${c}`);
+                    cell.dataset.switchClick = 'true';
+                    cell.onclick = function() {
+                        handleSwitchClick(r, c);
+                    };
+                }
+            }
+        }
+
+        // 移除格子的交换点击事件
+        function detachSwitchClickHandlers() {
+            for (let r = 0; r < 4; r++) {
+                for (let c = 0; c < 4; c++) {
+                    const cell = document.getElementById(`cell-${r}-${c}`);
+                    cell.dataset.switchClick = '';
+                    cell.onclick = null;
+                    cell.classList.remove('cell-selected');
+                }
+            }
+        }
+
+        // 处理交换点击
+        function handleSwitchClick(r, c) {
+            if (!isSwitchMode || isAnimating) return;
+
+            // 如果点击的是已选中的棋子，取消选中
+            if (selectedCell && selectedCell.r === r && selectedCell.c === c) {
+                const cell = document.getElementById(`cell-${r}-${c}`);
+                cell.classList.remove('cell-selected');
+                selectedCell = null;
+                return;
+            }
+
+            // 如果还没有选中第一个棋子
+            if (!selectedCell) {
+                selectedCell = { r, c };
+                const cell = document.getElementById(`cell-${r}-${c}`);
+                cell.classList.add('cell-selected');
+                return;
+            }
+
+            // 已经选中了第一个棋子，现在选中第二个，执行交换
+            const firstCell = selectedCell;
+            const secondCell = { r, c };
+
+            // 执行交换
+            switchTiles(firstCell, secondCell);
+
+            // 退出交换模式
+            exitSwitchMode();
+        }
+
+        // 交换两个棋子
+        function switchTiles(first, second) {
+            // 保存当前状态到历史栈（允许撤销交换）
+            historyStack.push({
+                board: board.map(row => [...row]),
+                score: score
+            });
+            updateUndoButton();
+
+            // 交换 board 中的值
+            const temp = board[first.r][first.c];
+            board[first.r][first.c] = board[second.r][second.c];
+            board[second.r][second.c] = temp;
+
+            // 重新渲染
             render();
         }
 
