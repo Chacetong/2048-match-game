@@ -196,7 +196,8 @@
             const rowClass = Array.from(cell.classList).find(cls => cls.startsWith('row-'));
             cell.className = `grid-cell ${rowClass}`;
             bgDiv.removeAttribute('style');
-            cell.removeAttribute('style');
+            // 强制清除所有可能残留的视觉样式
+            cell.style.cssText = '';
 
             // 应用图片或样式
             if (value > 0) {
@@ -414,11 +415,23 @@
 
                 // 动画结束后，添加新棋子和合并效果
                 setTimeout(() => {
-                    for (const toKey of Object.keys(tileMovements)) {
-                        const [toR, toC] = toKey.split('-').map(Number);
-                        const toCell = document.getElementById(`cell-${toR}-${toC}`);
-                        toCell.style.transition = '';
-                        toCell.style.transform = '';
+                    // 清理所有移动和合并位置的动画样式
+                    const allAnimatedKeys = new Set([
+                        ...Object.keys(tileMovements),
+                        ...mergedPositions.map(p => `${p.r}-${p.c}`)
+                    ]);
+                    for (const key of allAnimatedKeys) {
+                        const [r, c] = key.split('-').map(Number);
+                        const cell = document.getElementById(`cell-${r}-${c}`);
+                        if (cell) {
+                            // 禁用 transition 避免清理时产生动画，然后清除 transform
+                            cell.style.transition = 'none';
+                            cell.style.transform = '';
+                            // 强制重绘以确保样式立即生效
+                            void cell.offsetHeight;
+                            // 恢复 transition 以便 CSS 动画可以正常工作
+                            cell.style.transition = '';
+                        }
                     }
 
                     const newTile = addNewTile();
