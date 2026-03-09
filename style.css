@@ -151,7 +151,7 @@ h1 {
 
 .prop-img {
     width: 64px;
-    height: 64px;
+    height: 66px;
     object-fit: contain;
     border-radius: 8px;
 }
