@@ -121,7 +121,7 @@
         let touchStartY = 0;
 
         // ==================== 撤销功能状态 ====================
-        let history = null;  // 保存上一步的状态 {board: [...], score: number}
+        let historyStack = [];  // 历史记录栈，保存多步状态 [{board: [...], score: number}, ...]
 
         // ==================== 游戏初始化 ====================
         function init() {
@@ -131,7 +131,7 @@
             board = Array(4).fill(null).map(() => Array(4).fill(0));
             score = 0;
             hasWon = false;
-            history = null;  // 重置历史状态
+            historyStack = [];  // 重置历史栈
             updateScore();
             updateUndoButton();  // 更新撤销按钮状态
             hideOverlays();
@@ -142,12 +142,12 @@
 
         // ==================== 撤销功能 ====================
 
-        // 保存当前状态到历史
+        // 保存当前状态到历史栈
         function saveHistory() {
-            history = {
+            historyStack.push({
                 board: board.map(row => [...row]),  // 深拷贝 board
                 score: score
-            };
+            });
         }
 
         // 更新撤销按钮状态
@@ -155,7 +155,7 @@
             const propItem = document.getElementById('prop-return');
             const propImg = document.getElementById('prop-return-img');
 
-            if (history) {
+            if (historyStack.length > 0) {
                 // 可用状态
                 propItem.classList.remove('disabled');
                 propImg.src = 'Assets/prop_undo_on.png';
@@ -166,16 +166,16 @@
             }
         }
 
-        // 撤销上一步
+        // 撤销上一步（可连续撤销）
         function undoMove() {
-            if (!history || isAnimating) return;
+            if (historyStack.length === 0 || isAnimating) return;
+
+            // 从历史栈弹出最后一个状态
+            const lastState = historyStack.pop();
 
             // 恢复历史状态
-            board = history.board.map(row => [...row]);
-            score = history.score;
-
-            // 清除历史状态（只能撤销一次）
-            history = null;
+            board = lastState.board.map(row => [...row]);
+            score = lastState.score;
 
             // 更新显示
             updateScore();
@@ -433,8 +433,8 @@
 
             if (!moved) return;
 
-            // 移动成功，保存历史状态并更新撤销按钮
-            history = previousState;
+            // 移动成功，保存历史状态到栈并更新撤销按钮
+            historyStack.push(previousState);
             updateUndoButton();
 
             isAnimating = true;
