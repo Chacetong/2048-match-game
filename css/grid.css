@@ -91,5 +91,5 @@
 }
 
 .grid-cell.cell-selected {
-    z-index: 10;
+    z-index: 100;
 }
