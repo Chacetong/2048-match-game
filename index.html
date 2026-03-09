@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2048对对碰</title>
+    <title>2048 Match Up</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="container">
         <header>
-            <h1>对对碰</h1>
+            <h1>2048 Match Up</h1>
             <div class="score-container">
                 <div class="score-box">
                     <div class="score-label">得分</div>
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <!-- <button class="btn" onclick="newGame()">新游戏</button> -->
-            <div class="style-container" style="margin-top: 15px;">
+            <div class="style-container" style="margin-top: 20px;">
                 <span style="color: #856e63; font-size: 14px; margin-right: 10px;">Style</span>
                 <button class="btn-style active" onclick="switchStyle('type_01', this)">01</button>
                 <button class="btn-style" onclick="switchStyle('type_02', this)">02</button>
@@ -35,13 +35,13 @@
             <div class="grid-container" id="grid"></div>
 
             <div class="game-over" id="game-over">
-                <h2>游戏结束</h2>
-                <button class="btn" onclick="newGame()">再试一次</button>
+                <h2>Game End</h2>
+                <button class="btn" onclick="newGame()">Try Again!</button>
             </div>
 
             <div class="game-won" id="game-won">
-                <h2>🎉 恭喜获胜！</h2>
-                <button class="btn" onclick="continueGame()">继续游戏</button>
+                <h2>🎉 Congratulations!</h2>
+                <button class="btn" onclick="continueGame()">Continue Game</button>
             </div>
         </div>
 
@@ -57,7 +57,7 @@
         </div>
 
         <div class="start-container">
-            <button class="btn" onclick="newGame()">新游戏</button>
+            <button class="btn" onclick="newGame()">New Game</button>
         </div>
 
         <div class="instructions">
