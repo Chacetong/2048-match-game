@@ -1,0 +1,49 @@
+/* 动画效果 */
+
+/* 新棋子出现动画 */
+.tile-new {
+    animation: appear 0.2s ease-in-out;
+}
+
+/* 合并动画 */
+.tile-merge {
+    animation: pop 0.2s ease-in-out;
+}
+
+/* 选中脉冲动画 */
+@keyframes pulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}

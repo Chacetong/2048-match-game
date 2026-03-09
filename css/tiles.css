@@ -1,0 +1,86 @@
+/* 棋子数字样式 */
+
+/* 默认 CSS 样式 */
+.tile-2 {
+    background: #c9b27d;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 48px;
+}
+
+.tile-4 {
+    background: #a7b46b;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 48px;
+}
+
+.tile-8 {
+    background: #8bac67;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 48px;
+}
+
+.tile-16 {
+    background: #78b9ad;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 48px;
+}
+
+.tile-32 {
+    background: #5a91a9;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 48px;
+}
+
+.tile-64 {
+    background: #625fa4;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 48px;
+}
+
+.tile-128 {
+    background: #653393;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 40px;
+}
+
+.tile-256 {
+    background: #5b2662;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 40px;
+}
+
+.tile-512 {
+    background: #5f1754;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 40px;
+}
+
+.tile-1024 {
+    background: #690b31;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 32px;
+}
+
+.tile-2048 {
+    background: #1c1c1c;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 32px;
+    animation: glow 1.5s ease-in-out infinite;
+}
+
+.tile-super {
+    background: #9a8b9a;
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 18px;
+}
+
+@keyframes glow {
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(122, 143, 117, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 30px rgba(122, 143, 117, 0.8);
+    }
+}

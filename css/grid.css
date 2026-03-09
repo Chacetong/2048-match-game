@@ -1,0 +1,95 @@
+/* 棋盘和格子样式 */
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: rgba(187, 173, 160, 0.3);
+    padding: 2px;
+    border-radius: 12px;
+}
+
+.grid-cell {
+    width: 100%;
+    aspect-ratio: 1;
+    background: rgba(238, 228, 218, 0.6);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 600;
+    color: #6b5d4d;
+    transition: all 0.15s ease;
+    position: relative;
+    overflow: visible;
+    z-index: 1;
+}
+
+.tile-text {
+    position: relative;
+    z-index: 5;
+}
+
+/* 行级 z-index：只有非空棋子才应用，且下一行遮盖上一行 */
+.is-tile.row-0 {
+    z-index: 10;
+}
+
+.is-tile.row-1 {
+    z-index: 20;
+}
+
+.is-tile.row-2 {
+    z-index: 30;
+}
+
+.is-tile.row-3 {
+    z-index: 40;
+}
+
+/* 图片背景模式 */
+.grid-cell.has-image {
+    background: transparent;
+}
+
+.tile-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 116.67%;
+    background-size: 100% 100%;
+    background-position: top center;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    display: none;
+}
+
+.grid-cell.has-image .tile-bg {
+    display: block;
+}
+
+.grid-cell.has-image .tile-text {
+    display: block;
+}
+
+/* 格子选中状态（交换模式） */
+.grid-cell.cell-selected::after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -24px;
+    border: 4px solid #ffe100;
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(255, 247, 88, 0.999);
+    pointer-events: none;
+    z-index: 100;
+    animation: pulse 1s ease-in-out infinite;
+}
+
+.grid-cell.cell-selected {
+    z-index: 10;
+}
