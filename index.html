@@ -189,6 +189,7 @@
             // 更新显示
             updateScore();
             updateUndoButton();
+            updateSwitchButton();  // 撤销后更新交换按钮状态
             render();
         }
 
@@ -197,6 +198,9 @@
         // 切换交换模式
         function toggleSwitchMode() {
             if (isAnimating) return;
+            
+            // 如果不可用，点击无效
+            if (!isSwitchAvailable()) return;
             
             if (isSwitchMode) {
                 exitSwitchMode();
@@ -228,19 +232,38 @@
             detachSwitchClickHandlers();
         }
 
+        // 检查交换道具是否可用（棋盘中恰好2个棋子且不相同时可用）
+        function isSwitchAvailable() {
+            const tiles = [];
+            for (let r = 0; r < 4; r++) {
+                for (let c = 0; c < 4; c++) {
+                    if (board[r][c] !== 0) {
+                        tiles.push({ r, c, value: board[r][c] });
+                    }
+                }
+            }
+            // 恰好2个棋子，且两个棋子不同时，可用
+            return tiles.length === 2 && tiles[0].value !== tiles[1].value;
+        }
+
         // 更新交换按钮状态
         function updateSwitchButton() {
             const propItem = document.getElementById('prop-switch');
             const propImg = document.getElementById('prop-switch-img');
+            const available = isSwitchAvailable();
             
-            if (isSwitchMode) {
-                // 激活状态
-                propItem.classList.add('active');
+            if (available) {
+                // 可用状态
+                propItem.classList.remove('disabled');
                 propImg.src = 'Assets/prop_switch_on.png';
             } else {
-                // 非激活状态
-                propItem.classList.remove('active');
+                // 不可用状态
+                propItem.classList.add('disabled');
                 propImg.src = 'Assets/prop_switch_off.png';
+                // 如果正在交换模式，退出
+                if (isSwitchMode) {
+                    exitSwitchMode();
+                }
             }
         }
 
@@ -316,6 +339,7 @@
 
             // 重新渲染
             render();
+            updateSwitchButton();  // 交换后更新按钮状态
         }
 
         function createGridDOM() {
@@ -646,6 +670,7 @@
                     }
 
                     isAnimating = false;
+                    updateSwitchButton();  // 移动完成后更新交换按钮状态
                 }, 210);
             });
         }
