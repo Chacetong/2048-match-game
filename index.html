@@ -29,14 +29,7 @@
                 <button class="btn-style" onclick="switchStyle('type_02', this)">02</button>
                 <button class="btn-style" onclick="switchStyle('type_03', this)">03</button>
             </div>
-            
-            <!-- 道具区域 -->
-            <div class="props-container">
-                <div class="prop-item" id="prop-return" onclick="undoMove()" title="撤销上一步">
-                    <img src="Assets/item/prop_return_off.png" alt="撤销" id="prop-return-img" class="prop-img">
-                    <span class="prop-label">Undo</span>
-                </div>
-            </div>
+
         </header>
 
         <div class="game-container">
@@ -61,6 +54,14 @@
                 <button class="mobile-btn" onclick="move('left')">←</button>
                 <button class="mobile-btn" onclick="move('down')">↓</button>
                 <button class="mobile-btn" onclick="move('right')">→</button>
+            </div>
+        </div>
+
+        <!-- 道具区域 -->
+        <div class="props-container">
+            <div class="prop-item" id="prop-return" onclick="undoMove()" title="撤销上一步">
+                <img src="Assets/prop_undo_off.png" alt="撤销" id="prop-return-img" class="prop-img">
+                <span class="prop-label">Undo</span>
             </div>
         </div>
 
@@ -140,7 +141,7 @@
         }
 
         // ==================== 撤销功能 ====================
-        
+
         // 保存当前状态到历史
         function saveHistory() {
             history = {
@@ -153,29 +154,29 @@
         function updateUndoButton() {
             const propItem = document.getElementById('prop-return');
             const propImg = document.getElementById('prop-return-img');
-            
+
             if (history) {
                 // 可用状态
                 propItem.classList.remove('disabled');
-                propImg.src = 'Assets/item/prop_return_on.png';
+                propImg.src = 'Assets/prop_undo_on.png';
             } else {
                 // 不可用状态
                 propItem.classList.add('disabled');
-                propImg.src = 'Assets/item/prop_return_off.png';
+                propImg.src = 'Assets/prop_undo_off.png';
             }
         }
 
         // 撤销上一步
         function undoMove() {
             if (!history || isAnimating) return;
-            
+
             // 恢复历史状态
             board = history.board.map(row => [...row]);
             score = history.score;
-            
+
             // 清除历史状态（只能撤销一次）
             history = null;
-            
+
             // 更新显示
             updateScore();
             updateUndoButton();
