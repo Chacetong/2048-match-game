@@ -141,6 +141,15 @@ h1 {
     line-height: 1.6;
 }
 
+/* PC端显示PC说明，隐藏移动端说明 */
+.instruction-pc {
+    display: block;
+}
+
+.instruction-mobile {
+    display: none;
+}
+
 /* 游戏结束/获胜遮罩 */
 .game-over,
 .game-won {
@@ -260,6 +269,15 @@ h1 {
     }
 
     .mobile-controls {
+        display: block;
+    }
+
+    /* 移动端显示移动端说明，隐藏PC说明 */
+    .instruction-pc {
+        display: none;
+    }
+
+    .instruction-mobile {
         display: block;
     }
 }
