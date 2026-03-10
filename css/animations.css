@@ -12,6 +12,7 @@
 
 /* 选中脉冲动画 */
 @keyframes pulse {
+
     0%,
     100% {
         transform: scale(1);
@@ -57,6 +58,6 @@
     justify-content: center;
     text-align: center;
     color: #856e63;
-    font-size: 18px;
+    font-size: 20px;
     animation: pulse 1.5s ease-in-out infinite;
 }
