@@ -12,6 +12,7 @@ function init() {
     score = 0;
     hasWon = false;
     historyStack = [];  // 重置历史栈
+    switchCount = 2;  // 重置交换道具次数
     exitSwitchMode();  // 重置交换模式
     updateScore();
     updateUndoButton();  // 更新撤销按钮状态

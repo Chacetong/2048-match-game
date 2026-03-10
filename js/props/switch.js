@@ -2,8 +2,11 @@
  * 交换道具模块
  */
 
-// 检查交换道具是否可用（0/1个棋子不可用；2+个棋子时，全相同则不可用，否则可用）
+// 检查交换道具是否可用（0/1个棋子不可用；次数为0不可用；2+个棋子时，全相同则不可用，否则可用）
 function isSwitchAvailable() {
+    // 次数为0时不可用
+    if (switchCount <= 0) return false;
+
     const tiles = [];
     for (let r = 0; r < 4; r++) {
         for (let c = 0; c < 4; c++) {
@@ -25,16 +28,27 @@ function isSwitchAvailable() {
 function updateSwitchButton() {
     const propItem = document.getElementById('prop-switch');
     const propImg = document.getElementById('prop-switch-img');
+    const countBadge = document.getElementById('prop-switch-count');
+    const countText = countBadge.querySelector('.prop-count-text');
+    const countBg = countBadge.querySelector('.prop-count-bg');
     const available = isSwitchAvailable();
+
+    // 更新次数显示
+    countText.textContent = switchCount;
 
     if (available) {
         // 可用状态
         propItem.classList.remove('disabled');
-        propImg.src = 'Assets/prop_switch_on.png';
+        propImg.src = 'Assets/prop_switch_default.png';
+        countBg.src = 'Assets/prop_number_bg_default.png';
     } else {
         // 不可用状态
         propItem.classList.add('disabled');
-        propImg.src = 'Assets/prop_switch_off.png';
+        propImg.src = 'Assets/prop_switch_disable.png';
+        if (switchCount <= 0) {
+            // 次数为0时切换为灰色背景
+            countBg.src = 'Assets/prop_number_bg_disable.png';
+        }
         // 如果正在交换模式，退出
         if (isSwitchMode) {
             exitSwitchMode();
@@ -213,6 +227,9 @@ function switchTiles(first, second) {
         const temp = board[first.r][first.c];
         board[first.r][first.c] = board[second.r][second.c];
         board[second.r][second.c] = temp;
+
+        // 减少使用次数
+        switchCount--;
 
         // 渲染新状态（此时原格子仍透明）
         render();

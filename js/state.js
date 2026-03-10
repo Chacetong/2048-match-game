@@ -22,3 +22,4 @@ let historyStack = [];  // 历史记录栈，保存多步状态 [{board: [...], 
 // 交换道具状态
 let isSwitchMode = false;  // 是否处于交换模式
 let selectedCell = null;   // 选中的第一个棋子 {r, c}
+let switchCount = 2;       // 交换道具剩余使用次数（每局初始2次）
