@@ -51,9 +51,12 @@
 /* 加载文字样式 */
 .loading-text {
     grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     color: #856e63;
     font-size: 18px;
-    padding: 40px;
     animation: pulse 1.5s ease-in-out infinite;
 }
