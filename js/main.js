@@ -3,9 +3,9 @@
  * 初始化游戏和设置事件监听
  */
 
-// 初始化游戏
+// 初始化游戏（带预加载）
 document.addEventListener('DOMContentLoaded', function() {
-    init();
+    initWithPreload();
 });
 
 // 键盘事件监听
