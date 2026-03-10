@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2048 Match Up</title>
+    <title>TileFuse</title>
     <!-- 样式表 -->
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/grid.css">
@@ -16,7 +16,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>2048 Match Up</h1>
+            <img src="Assets/text-logo.png" alt="TileFuse Logo" class="logo-img">
             <div class="score-container">
                 <div class="score-box">
                     <div class="score-label">得分</div>
@@ -29,10 +29,10 @@
             </div>
 
             <div class="style-container" style="margin-top: 20px;">
-                <span style="color: #856e63; font-size: 14px; margin-right: 10px;">Style</span>
-                <button class="btn-style btn-style-bg active" onclick="switchStyle('type_01', this)">01</button>
-                <button class="btn-style btn-style-bg" onclick="switchStyle('type_02', this)">02</button>
-                <button class="btn-style btn-style-bg" onclick="switchStyle('type_03', this)">03</button>
+                <span style="color: #856e63; font-size: 14px; margin-right: 10px;">Plate</span>
+                <button class="btn-style btn-style-bg active" onclick="switchStyle('theme-01', this)">01</button>
+                <button class="btn-style btn-style-bg" onclick="switchStyle('theme-02', this)">02</button>
+                <button class="btn-style btn-style-bg" onclick="switchStyle('theme-03', this)">03</button>
                 <span style="color: #856e63; font-size: 14px; margin-left: 20px; margin-right: 10px;">Pattern</span>
                 <button class="btn-style btn-style-pattern active" onclick="switchPattern('01', this)">01</button>
                 <button class="btn-style btn-style-pattern" onclick="switchPattern('02', this)">02</button>
@@ -88,21 +88,21 @@
         <!-- 道具区域 -->
         <div class="props-container">
             <div class="prop-item" id="prop-return" onclick="undoMove()" title="撤销上一步">
-                <img src="Assets/props/prop_undo_disable.png" alt="撤销" id="prop-return-img" class="prop-img">
+                <img src="Assets/props/undo-disabled.png" alt="撤销" id="prop-return-img" class="prop-img">
                 <span class="prop-label">Undo</span>
             </div>
             <div class="prop-item" id="prop-switch" onclick="toggleSwitchMode()" title="交换两个棋子">
                 <div class="prop-icon-wrapper">
-                    <img src="Assets/props/prop_switch_disable.png" alt="交换" id="prop-switch-img" class="prop-img">
+                    <img src="Assets/props/switch-disabled.png" alt="交换" id="prop-switch-img" class="prop-img">
                     <div class="prop-count-badge" id="prop-switch-count">
-                        <img src="Assets/props/prop_number_bg_default.png" alt="" class="prop-count-bg">
+                        <img src="Assets/props/badge-active.png" alt="" class="prop-count-bg">
                         <span class="prop-count-text">2</span>
                     </div>
                 </div>
                 <span class="prop-label">Switch</span>
             </div>
             <div class="prop-item" id="prop-restart" onclick="showRestartConfirm()" title="重新开始游戏">
-                <img src="Assets/props/prop_restart_default.png" alt="重新开始" id="prop-restart-img" class="prop-img">
+                <img src="Assets/props/restart-active.png" alt="重新开始" id="prop-restart-img" class="prop-img">
                 <span class="prop-label">Restart</span>
             </div>
         </div>

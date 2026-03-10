@@ -39,15 +39,15 @@ function updateSwitchButton() {
     if (available) {
         // 可用状态
         propItem.classList.remove('disabled');
-        propImg.src = 'Assets/props/prop_switch_default.png';
-        countBg.src = 'Assets/props/prop_number_bg_default.png';
+        propImg.src = 'Assets/props/switch-active.png';
+        countBg.src = 'Assets/props/badge-active.png';
     } else {
         // 不可用状态
         propItem.classList.add('disabled');
-        propImg.src = 'Assets/props/prop_switch_disable.png';
+        propImg.src = 'Assets/props/switch-disabled.png';
         if (switchCount <= 0) {
             // 次数为0时切换为灰色背景
-            countBg.src = 'Assets/props/prop_number_bg_disable.png';
+            countBg.src = 'Assets/props/badge-disabled.png';
         }
         // 如果正在交换模式，退出
         if (isSwitchMode) {
@@ -106,7 +106,7 @@ function attachSwitchClickHandlers() {
             if (board[r][c] !== 0) {
                 const cell = document.getElementById(`cell-${r}-${c}`);
                 cell.dataset.switchClick = 'true';
-                cell.onclick = function() {
+                cell.onclick = function () {
                     handleSwitchClick(r, c);
                 };
             }

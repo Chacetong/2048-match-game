@@ -76,11 +76,9 @@
     position: absolute;
     /* 基于背景图 240x280 的比例计算 */
     /* 左边距 16/240 = 6.67%，上边距 16/280 = 5.71% */
-    left: 6.67%;
-    top: 4.9%;
     /* 尺寸 208x208，相对于 240x280 的比例 */
     width: 86.67%;
-    height: 74.29%;
+    height: 86.67%;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;

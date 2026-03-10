@@ -1,4 +1,4 @@
-/* 2048 游戏 - 主样式表 */
+/* TileFuse 游戏 - 主样式表 */
 
 /* Google Fonts - Poetsen One */
 @import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
@@ -35,11 +35,18 @@ header {
     margin: 32px;
 }
 
+.logo-img {
+    max-width: 280px;
+    width: 60%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* h1 样式保留备用或用于其他标题 */
 h1 {
-    color: #281309;
-    font-size: 48px;
-    font-weight: 700;
-    letter-spacing: 0;
+    display: none;
+    /* 暂时隐藏，因为已经换成图片 */
 }
 
 /* 按钮样式 */
@@ -106,8 +113,8 @@ h1 {
     background: rgba(255, 255, 255, 0);
     color: #579b62;
     border: 1.5px solid rgba(87, 155, 98, 0.4);
-    padding: 4px 16px;
-    border-radius: 20px;
+    padding: 4px 8px;
+    border-radius: 8px;
     font-size: 16px;
     transition: all 0.2s ease;
     /* margin: 0 2px; */
