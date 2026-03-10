@@ -47,3 +47,21 @@ document.addEventListener('touchmove', (e) => {
         e.preventDefault();
     }
 }, { passive: false });
+
+// ==================== 重新开始确认弹窗 ====================
+
+// 显示确认弹窗
+function showRestartConfirm() {
+    document.getElementById('restart-confirm').classList.add('show');
+}
+
+// 确认重新开始
+function confirmRestart() {
+    document.getElementById('restart-confirm').classList.remove('show');
+    newGame();
+}
+
+// 取消重新开始
+function cancelRestart() {
+    document.getElementById('restart-confirm').classList.remove('show');
+}

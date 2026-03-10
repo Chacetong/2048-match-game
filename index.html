@@ -43,12 +43,23 @@
 
             <div class="game-over" id="game-over">
                 <h2>Game End</h2>
-                <button class="btn" onclick="newGame()">Try Again!</button>
+                <button class="btn" onclick="showRestartConfirm()">Try Again!</button>
             </div>
 
             <div class="game-won" id="game-won">
                 <h2>🎉 Congratulations!</h2>
                 <button class="btn" onclick="continueGame()">Continue Game</button>
+            </div>
+
+            <!-- 重新开始确认弹窗 -->
+            <div class="confirm-dialog" id="restart-confirm">
+                <div class="confirm-content">
+                    <h3>确认重新开始游戏?</h3>
+                    <div class="confirm-buttons">
+                        <button class="btn btn-confirm" onclick="confirmRestart()">Restart</button>
+                        <button class="btn btn-cancel" onclick="cancelRestart()">Cancel</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -79,12 +90,10 @@
                 </div>
                 <span class="prop-label">Switch</span>
             </div>
-        </div>
-
-
-        <!-- 重开 -->
-        <div class="start-container">
-            <button class="btn" onclick="newGame()">New Game</button>
+            <div class="prop-item" id="prop-restart" onclick="showRestartConfirm()" title="重新开始游戏">
+                <img src="Assets/prop_restart_default.png" alt="重新开始" id="prop-restart-img" class="prop-img">
+                <span class="prop-label">Restart</span>
+            </div>
         </div>
 
         <div class="instructions">

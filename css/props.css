@@ -118,3 +118,68 @@
         opacity: 0;
     }
 }
+
+/* 确认弹窗样式 */
+.confirm-dialog {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.confirm-dialog.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.confirm-content {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px 40px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.confirm-content h3 {
+    color: #281309;
+    font-size: 20px;
+    margin-bottom: 24px;
+}
+
+.confirm-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+.confirm-buttons .btn {
+    padding: 10px 24px;
+    font-size: 16px;
+}
+
+.confirm-buttons .btn-confirm {
+    background: #579b62;
+}
+
+.confirm-buttons .btn-confirm:hover {
+    background: #368041;
+}
+
+.confirm-buttons .btn-cancel {
+    background: #9a8b7a;
+}
+
+.confirm-buttons .btn-cancel:hover {
+    background: #7a6b5a;
+}
