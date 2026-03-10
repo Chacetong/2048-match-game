@@ -11,6 +11,9 @@ const PRELOAD_IMAGES = {
     ],
     styles: ['type_01', 'type_02', 'type_03'],
     
+    // 图案风格
+    patterns: ['01', '02', '03'],
+    
     // 道具图片
     props: [
         'prop_undo_default.png',
@@ -50,6 +53,14 @@ async function preloadAllImages() {
     PRELOAD_IMAGES.props.forEach(prop => {
         const src = `Assets/props/${prop}`;
         imagePromises.push(preloadImage(src));
+    });
+    
+    // 预加载所有风格的图案层图片
+    PRELOAD_IMAGES.patterns.forEach(pattern => {
+        PRELOAD_IMAGES.tiles.forEach(value => {
+            const src = `Assets/item/pattern/${pattern}/item_pattern_${pattern}_${value}.png`;
+            imagePromises.push(preloadImage(src));
+        });
     });
     
     try {

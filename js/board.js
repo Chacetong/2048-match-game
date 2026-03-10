@@ -12,11 +12,15 @@ function createGridDOM() {
             const cell = document.createElement('div');
             cell.className = `grid-cell row-${r}`;
             cell.id = `cell-${r}-${c}`;
-            // 背景图片容器（用于支持溢出显示）
+            // 背景图片容器（底层）
             const bgDiv = document.createElement('div');
             bgDiv.className = 'tile-bg';
             cell.appendChild(bgDiv);
-            // 内部文本容器
+            // 图案层（中间层）
+            const patternDiv = document.createElement('div');
+            patternDiv.className = 'tile-pattern';
+            cell.appendChild(patternDiv);
+            // 内部文本容器（顶层）
             const textSpan = document.createElement('span');
             textSpan.className = 'tile-text';
             cell.appendChild(textSpan);
@@ -30,11 +34,13 @@ function renderTile(cell, value, isNew = false, isMerged = false) {
     const config = getTileConfig(value);
     const textSpan = cell.querySelector('.tile-text');
     const bgDiv = cell.querySelector('.tile-bg');
+    const patternDiv = cell.querySelector('.tile-pattern');
 
     // 重置类名和内联样式
     const rowClass = Array.from(cell.classList).find(cls => cls.startsWith('row-'));
     cell.className = `grid-cell ${rowClass}`;
     bgDiv.removeAttribute('style');
+    patternDiv.removeAttribute('style');
     // 强制清除所有可能残留的视觉样式
     cell.style.cssText = '';
 
@@ -44,10 +50,12 @@ function renderTile(cell, value, isNew = false, isMerged = false) {
         const className = value <= 4096 ? `tile-${value}` : 'tile-super';
         cell.classList.add(className);
 
-        if (config.image) {
-            // 图片模式
+        if (config.bgImage) {
+            // 背景图模式
             cell.classList.add('has-image');
-            bgDiv.style.backgroundImage = `url(${config.image})`;
+            bgDiv.style.backgroundImage = `url(${config.bgImage})`;
+            // 图案层
+            patternDiv.style.backgroundImage = `url(${config.patternImage})`;
         }
     } else {
         cell.classList.remove('is-tile');
