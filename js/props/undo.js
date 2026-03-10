@@ -10,11 +10,11 @@ function updateUndoButton() {
     if (historyStack.length > 0) {
         // 可用状态
         propItem.classList.remove('disabled');
-        propImg.src = 'Assets/prop_undo_default.png';
+        propImg.src = 'Assets/props/prop_undo_default.png';
     } else {
         // 不可用状态
         propItem.classList.add('disabled');
-        propImg.src = 'Assets/prop_undo_disable.png';
+        propImg.src = 'Assets/props/prop_undo_disable.png';
     }
 }
 

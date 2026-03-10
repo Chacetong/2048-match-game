@@ -39,15 +39,15 @@ function updateSwitchButton() {
     if (available) {
         // 可用状态
         propItem.classList.remove('disabled');
-        propImg.src = 'Assets/prop_switch_default.png';
-        countBg.src = 'Assets/prop_number_bg_default.png';
+        propImg.src = 'Assets/props/prop_switch_default.png';
+        countBg.src = 'Assets/props/prop_number_bg_default.png';
     } else {
         // 不可用状态
         propItem.classList.add('disabled');
-        propImg.src = 'Assets/prop_switch_disable.png';
+        propImg.src = 'Assets/props/prop_switch_disable.png';
         if (switchCount <= 0) {
             // 次数为0时切换为灰色背景
-            countBg.src = 'Assets/prop_number_bg_disable.png';
+            countBg.src = 'Assets/props/prop_number_bg_disable.png';
         }
         // 如果正在交换模式，退出
         if (isSwitchMode) {

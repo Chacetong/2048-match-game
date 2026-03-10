@@ -149,7 +149,8 @@ h1 {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(232, 224, 213, 0.95);
+    gap: 20px;
+    background: rgba(232, 224, 213, 1);
     border-radius: 16px;
     display: flex;
     flex-direction: column;
