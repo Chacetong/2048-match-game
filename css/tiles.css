@@ -65,13 +65,30 @@
     background: #1c1c1c;
     color: rgba(255, 255, 255, 0.9);
     font-size: 32px;
-    animation: glow 1.5s ease-in-out infinite;
+}
+
+.tile-4096 {
+    background: linear-gradient(135deg, #ffd700 0%, #ff8c00 50%, #ff4500 100%);
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 32px;
+    animation: glow-gold 1.5s ease-in-out infinite;
 }
 
 .tile-super {
     background: #9a8b9a;
     color: rgba(0, 0, 0, 0.8);
     font-size: 18px;
+}
+
+@keyframes glow-gold {
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    }
+
+    50% {
+        box-shadow: 0 0 40px rgba(255, 140, 0, 0.9);
+    }
 }
 
 @keyframes glow {

@@ -11,6 +11,7 @@ function init() {
     board = Array(4).fill(null).map(() => Array(4).fill(0));
     score = 0;
     hasWon = false;
+    hasSuperWon = false;  // 重置隐藏结局状态
     historyStack = [];  // 重置历史栈
     switchCount = 2;  // 重置交换道具次数
     exitSwitchMode();  // 重置交换模式
@@ -28,9 +29,14 @@ function newGame() {
     init();
 }
 
-// 继续游戏（获胜后）
+// 继续游戏（2048 获胜后）
 function continueGame() {
     document.getElementById('game-won').classList.remove('show');
+}
+
+// 继续游戏（4096 隐藏结局后）
+function continueSuperGame() {
+    document.getElementById('game-super-won').classList.remove('show');
 }
 
 // 移动棋子
@@ -79,6 +85,10 @@ function move(direction) {
                 if (merged === 2048 && !hasWon) {
                     hasWon = true;
                     setTimeout(() => document.getElementById('game-won').classList.add('show'), 200);
+                }
+                if (merged === 4096 && !hasSuperWon) {
+                    hasSuperWon = true;
+                    setTimeout(() => document.getElementById('game-super-won').classList.add('show'), 300);
                 }
                 resultItems.push({ val: merged, merged: true, fromOrigIdx: [nonZero[i].origIdx, nonZero[i + 1].origIdx] });
                 i += 2;

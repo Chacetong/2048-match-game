@@ -23,7 +23,9 @@ const tileStyles = {
 // 获取指定数字的配置
 function getTileConfig(value) {
     if (value === 0) return tileStyles[0];
-    return { image: tileStyles.getImage(value > 2048 ? 2048 : value) };
+    // 支持 4096 的图片，超过 4096 使用 4096 的图片
+    if (value > 4096) return { image: tileStyles.getImage(4096) };
+    return { image: tileStyles.getImage(value) };
 }
 
 // 切换风格

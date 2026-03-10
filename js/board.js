@@ -41,7 +41,7 @@ function renderTile(cell, value, isNew = false, isMerged = false) {
     // 应用图片或样式
     if (value > 0) {
         cell.classList.add('is-tile');
-        const className = value <= 2048 ? `tile-${value}` : 'tile-super';
+        const className = value <= 4096 ? `tile-${value}` : 'tile-super';
         cell.classList.add(className);
 
         if (config.image) {

@@ -7,7 +7,8 @@
 let board = [];
 let score = 0;
 let bestScore = 0;  // 只在单次会话保留，不存 localStorage
-let hasWon = false;
+let hasWon = false;      // 是否达成 2048
+let hasSuperWon = false; // 是否达成 4096（隐藏结局）
 
 // 触摸控制状态
 let touchStartX = 0;

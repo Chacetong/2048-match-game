@@ -178,6 +178,34 @@ h1 {
     color: #7a8f75;
 }
 
+/* 隐藏结局样式（4096） */
+.game-super-won {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.95) 0%, rgba(255, 140, 0, 0.95) 100%);
+}
+
+.game-super-won h2 {
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    font-size: 42px;
+}
+
+.super-won-text {
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.game-super-won .btn {
+    background: #fff;
+    color: #ff8c00;
+}
+
+.game-super-won .btn:hover {
+    background: #f0f0f0;
+    transform: translateY(-2px);
+}
+
 /* 移动端控制 */
 .mobile-controls {
     display: none;
