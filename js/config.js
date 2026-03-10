@@ -37,14 +37,24 @@ function getTileConfig(value) {
     };
 }
 
-// 切换风格（同时切换背景和图案）
+// 切换背景风格
 function switchStyle(styleSet, btn) {
     currentStyleSet = styleSet;
-    // 图案风格与背景风格保持一致
-    currentPatternSet = styleSet.replace('type_', '');
 
-    // 更新按钮激活状态
-    document.querySelectorAll('.btn-style').forEach(b => b.classList.remove('active'));
+    // 只更新背景按钮的激活状态
+    document.querySelectorAll('.btn-style-bg').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // 重新渲染全部格子
+    render();
+}
+
+// 切换图案风格
+function switchPattern(patternSet, btn) {
+    currentPatternSet = patternSet;
+
+    // 只更新图案按钮的激活状态
+    document.querySelectorAll('.btn-style-pattern').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
 
     // 重新渲染全部格子
