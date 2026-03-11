@@ -1,79 +1,91 @@
-/* 棋子数字样式 */
+/* 棋子等级样式 */
 
-/* 默认 CSS 样式 */
-.tile-2 {
+/* 等级 1 (数值 2) */
+.tile-lv1 {
     background: #c9b27d;
     color: rgba(0, 0, 0, 0.6);
     font-size: 48px;
 }
 
-.tile-4 {
+/* 等级 2 (数值 4) */
+.tile-lv2 {
     background: #a7b46b;
     color: rgba(0, 0, 0, 0.6);
     font-size: 48px;
 }
 
-.tile-8 {
+/* 等级 3 (数值 8) */
+.tile-lv3 {
     background: #8bac67;
     color: rgba(0, 0, 0, 0.6);
     font-size: 48px;
 }
 
-.tile-16 {
+/* 等级 4 (数值 16) */
+.tile-lv4 {
     background: #78b9ad;
     color: rgba(0, 0, 0, 0.6);
     font-size: 48px;
 }
 
-.tile-32 {
+/* 等级 5 (数值 32) */
+.tile-lv5 {
     background: #5a91a9;
     color: rgba(0, 0, 0, 0.6);
     font-size: 48px;
 }
 
-.tile-64 {
+/* 等级 6 (数值 64) */
+.tile-lv6 {
     background: #625fa4;
     color: rgba(0, 0, 0, 0.6);
     font-size: 48px;
 }
 
-.tile-128 {
+/* 等级 7 (数值 128) */
+.tile-lv7 {
     background: #653393;
     color: rgba(255, 255, 255, 0.9);
     font-size: 40px;
 }
 
-.tile-256 {
+/* 等级 8 (数值 256) */
+.tile-lv8 {
     background: #5b2662;
     color: rgba(255, 255, 255, 0.9);
     font-size: 40px;
 }
 
-.tile-512 {
+/* 等级 9 (数值 512) */
+.tile-lv9 {
     background: #5f1754;
     color: rgba(255, 255, 255, 0.9);
     font-size: 40px;
 }
 
-.tile-1024 {
+/* 等级 10 (数值 1024) */
+.tile-lv10 {
     background: #690b31;
     color: rgba(255, 255, 255, 0.9);
     font-size: 32px;
 }
 
-.tile-2048 {
+/* 等级 11 (数值 2048) - 胜利等级 */
+.tile-lv11 {
     background: #1c1c1c;
     color: rgba(255, 255, 255, 0.9);
     font-size: 32px;
 }
 
-.tile-4096 {
+/* 等级 12 (数值 4096) - 传奇等级 */
+.tile-lv12 {
     background: linear-gradient(135deg, #ffd700 0%, #ff8c00 50%, #ff4500 100%);
     color: rgba(255, 255, 255, 0.95);
     font-size: 32px;
     animation: glow-gold 1.5s ease-in-out infinite;
 }
 
+/* 等级 13+ (数值 8192+) - 超级等级 */
 .tile-super {
     background: #9a8b9a;
     color: rgba(0, 0, 0, 0.8);

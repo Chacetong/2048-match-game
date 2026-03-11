@@ -1,0 +1,38 @@
+#!/bin/bash
+# Git pre-commit hook for TileFuse
+# Auto-update version timestamp before commit
+
+echo "🔧 Updating version timestamp..."
+
+# Get current timestamp in ISO format
+TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%S+08:00")
+
+# Update version.json
+if [ -f "version.json" ]; then
+    # Use sed to update lastUpdated field (macOS compatible)
+    sed -i '' "s/\"lastUpdated\": \"[^\"]*\"/\"lastUpdated\": \"$TIMESTAMP\"/" version.json
+    git add version.json
+    echo "✅ Updated version.json"
+fi
+
+# Update version.js
+if [ -f "js/version.js" ]; then
+    sed -i '' "s/lastUpdated: '[^']*'/lastUpdated: '$TIMESTAMP'/" js/version.js
+    git add js/version.js
+    echo "✅ Updated version.js"
+fi
+
+# Update index.html version display
+if [ -f "index.html" ]; then
+    # Get version from version.json
+    VERSION=$(grep -o '"version": "[^"]*"' version.json | cut -d'"' -f4)
+    # Update game page version
+    sed -i '' "s/data-version>[^<]*/data-version>$VERSION/" index.html
+    # Update start page version and time
+    sed -i '' "s/TileFuse v[^<]*/TileFuse v$VERSION/" index.html
+    sed -i '' "s/Updated: [0-9]*/Updated: $(date -u +"%Y-%m-%d")/" index.html
+    git add index.html
+    echo "✅ Updated index.html"
+fi
+
+echo "✨ Version timestamp updated to: $TIMESTAMP"

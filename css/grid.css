@@ -2,12 +2,24 @@
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
     gap: 2px;
     background: rgba(187, 173, 160, 0.3);
     padding: 2px 2px 22px 2px;
     border-radius: 16px;
     /* 保持棋盘高度一致，避免 loading 时布局跳动 */
+}
+
+/* 棋盘大小样式 */
+.grid-size-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-size-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-size-5 {
+    grid-template-columns: repeat(5, 1fr);
 }
 
 .grid-cell {
@@ -33,21 +45,11 @@
 }
 
 /* 行级 z-index：只有非空棋子才应用，且下一行遮盖上一行 */
-.is-tile.row-0 {
-    z-index: 10;
-}
-
-.is-tile.row-1 {
-    z-index: 20;
-}
-
-.is-tile.row-2 {
-    z-index: 30;
-}
-
-.is-tile.row-3 {
-    z-index: 40;
-}
+.is-tile.row-0 { z-index: 10; }
+.is-tile.row-1 { z-index: 20; }
+.is-tile.row-2 { z-index: 30; }
+.is-tile.row-3 { z-index: 40; }
+.is-tile.row-4 { z-index: 50; }
 
 /* 图片背景模式 */
 .grid-cell.has-image {
