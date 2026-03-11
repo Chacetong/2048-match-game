@@ -35,8 +35,8 @@
             </div>
         </div>
         <div class="start-version">
-            <span class="version-text">TileFuse v1.2.0</span>
-            <span class="update-time">Updated: 2026-03-11-03-11</span>
+            <span class="version-text">TileFuse v1.2.1</span>
+            <span class="update-time">Updated: 2026-03-11-03-11-03-11</span>
         </div>
     </div>
 
@@ -61,16 +61,20 @@
                         <span class="style-label">Plate</span>
                         <div class="style-switch" id="plate-switch">
                             <div class="switch-slider"></div>
-                            <button class="switch-btn active" data-value="theme-01" onclick="switchStyle('theme-01', this)">01</button>
-                            <button class="switch-btn" data-value="theme-02" onclick="switchStyle('theme-02', this)">02</button>
-                            <button class="switch-btn" data-value="theme-03" onclick="switchStyle('theme-03', this)">03</button>
+                            <button class="switch-btn active" data-value="theme-01"
+                                onclick="switchStyle('theme-01', this)">01</button>
+                            <button class="switch-btn" data-value="theme-02"
+                                onclick="switchStyle('theme-02', this)">02</button>
+                            <button class="switch-btn" data-value="theme-03"
+                                onclick="switchStyle('theme-03', this)">03</button>
                         </div>
                     </div>
                     <div class="style-group">
                         <span class="style-label">Pattern</span>
                         <div class="style-switch" id="pattern-switch">
                             <div class="switch-slider"></div>
-                            <button class="switch-btn active" data-value="01" onclick="switchPattern('01', this)">01</button>
+                            <button class="switch-btn active" data-value="01"
+                                onclick="switchPattern('01', this)">01</button>
                             <button class="switch-btn" data-value="02" onclick="switchPattern('02', this)">02</button>
                             <button class="switch-btn" data-value="03" onclick="switchPattern('03', this)">03</button>
                         </div>
@@ -137,6 +141,16 @@
                     </div>
                     <span class="prop-label">Switch</span>
                 </div>
+                <div class="prop-item" id="prop-upgrade" onclick="toggleUpgradeMode()" title="提升一个非最高等级棋子">
+                    <div class="prop-icon-wrapper">
+                        <img src="Assets/props/upgrade-active.png" alt="升级" id="prop-upgrade-img" class="prop-img">
+                        <div class="prop-count-badge" id="prop-upgrade-count">
+                            <img src="Assets/props/badge-active.png" alt="" class="prop-count-bg">
+                            <span class="prop-count-text">2</span>
+                        </div>
+                    </div>
+                    <span class="prop-label">Upgrade</span>
+                </div>
                 <div class="prop-item" id="prop-restart" onclick="showRestartConfirm()" title="重新开始游戏">
                     <img src="Assets/props/restart-active.png" alt="重新开始" id="prop-restart-img" class="prop-img">
                     <span class="prop-label">Restart</span>
@@ -165,6 +179,7 @@
     <script src="js/game.js"></script>
     <script src="js/props/undo.js"></script>
     <script src="js/props/switch.js"></script>
+    <script src="js/props/upgrade.js"></script>
     <script src="js/main.js"></script>
 </body>
 

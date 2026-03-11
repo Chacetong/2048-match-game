@@ -4,6 +4,12 @@ All notable changes to TileFuse will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.2.1] - 2026-03-11
+
+### Added
+- Upgrade prop: allows upgrading a non-max level tile by 1 level
+- Visual fallback for tiles above lv12 (uses lv12 assets)
+
 ## [1.2.0] - 2026-03-11
 
 ### Added

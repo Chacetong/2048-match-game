@@ -24,3 +24,7 @@ let historyStack = [];
 let isSwitchMode = false;
 let selectedCell = null;
 let switchCount = 2;
+
+// 升级道具
+let isUpgradeMode = false;
+let upgradeCount = 2;

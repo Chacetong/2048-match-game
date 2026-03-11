@@ -33,5 +33,6 @@ function undoMove() {
     updateScore();
     updateUndoButton();
     updateSwitchButton();  // 撤销后更新交换按钮状态
+    updateUpgradeButton(); // 撤销后更新升级按钮状态
     render();
 }

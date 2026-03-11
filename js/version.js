@@ -1,14 +1,14 @@
 /**
  * 版本信息模块
- * TileFuse v1.2.0
+ * TileFuse v1.2.1
  * Author: Chace Tong
  */
 
 const APP_INFO = {
     name: 'TileFuse',
-    version: '1.2.0',
+    version: '1.2.1',
     author: 'Chace Tong',
-    lastUpdated: '2026-03-11T08:20:53+08:00'
+    lastUpdated: '2026-03-11T13:07:00+08:00'
 };
 
 /**

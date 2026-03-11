@@ -45,6 +45,7 @@ function quitToMenu() {
     historyStack = [];
     isSwitchMode = false;
     selectedCell = null;
+    isUpgradeMode = false;
     
     // 切换回启动页
     document.getElementById('game-page').classList.add('hidden');
@@ -80,13 +81,16 @@ function init() {
     hasSuperWon = false;
     historyStack = [];
     switchCount = 2;
+    upgradeCount = 2;
     exitSwitchMode();
+    exitUpgradeMode();
     updateScore();
     updateUndoButton();
     hideOverlays();
     addNewTile();
     addNewTile();
     updateSwitchButton();
+    updateUpgradeButton();
     render();
 }
 
@@ -108,6 +112,7 @@ function move(direction) {
     if (isAnimating) return;
 
     if (isSwitchMode) exitSwitchMode();
+    if (isUpgradeMode) exitUpgradeMode();
 
     historyStack.push({
         board: board.map(row => [...row]),
@@ -307,6 +312,7 @@ function move(direction) {
 
             isAnimating = false;
             updateSwitchButton();
+            updateUpgradeButton();
         }, 210);
     });
 }
