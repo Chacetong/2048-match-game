@@ -219,15 +219,8 @@ function upgradeTile(r, c) {
     score += getMergeScore(newLevel);
     updateScore();
 
-    // 检查是否达成胜利条件
-    if (newLevel === WIN_LEVEL && !hasWon) {
-        hasWon = true;
-        setTimeout(() => document.getElementById('game-won').classList.add('show'), 200);
-    }
-    if (newLevel === SUPER_LEVEL && !hasSuperWon) {
-        hasSuperWon = true;
-        setTimeout(() => document.getElementById('game-super-won').classList.add('show'), 300);
-    }
+    // 注意：upgrade 只能升级非最高等级棋子，所以不会产生新的最高等级
+    // 因此 upgrade 无法触发 lv13 (CYCLE_TRIGGER_LEVEL)，只有合并两个 lv12 才能触发
 
     setTimeout(() => {
         render();

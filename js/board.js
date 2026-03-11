@@ -81,6 +81,10 @@ function render() {
             renderTile(document.getElementById(`cell-${r}-${c}`), board[r][c]);
         }
     }
+    // 更新棋子展示模块
+    if (typeof updateTileShowcase === 'function') {
+        updateTileShowcase();
+    }
 }
 
 // 添加新棋子
@@ -93,7 +97,14 @@ function addNewTile() {
     }
     if (empty.length > 0) {
         const { r, c } = empty[Math.floor(Math.random() * empty.length)];
-        board[r][c] = getNewTileLevel();
+        const newLevel = getNewTileLevel();
+        board[r][c] = newLevel;
+        
+        // 更新达到过的最高等级
+        if (typeof maxLevelReached !== 'undefined' && newLevel > maxLevelReached) {
+            maxLevelReached = newLevel;
+        }
+        
         return { r, c, isNew: true };
     }
     return null;

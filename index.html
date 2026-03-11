@@ -35,8 +35,8 @@
             </div>
         </div>
         <div class="start-version">
-            <span class="version-text">TileFuse v1.2.2</span>
-            <span class="update-time">Updated: 2026-03-11-03-11-03-11-03-11</span>
+            <span class="version-text">TileFuse v1.3.0</span>
+            <span class="update-time">Updated: 2026-03-11-03-11</span>
         </div>
     </div>
 
@@ -69,7 +69,7 @@
                                 onclick="switchStyle('theme-03', this)">03</button>
                         </div>
                     </div>
-                    <div class="style-group">
+                    <!-- <div class="style-group">
                         <span class="style-label">Pattern</span>
                         <div class="style-switch" id="pattern-switch">
                             <div class="switch-slider"></div>
@@ -78,9 +78,16 @@
                             <button class="switch-btn" data-value="02" onclick="switchPattern('02', this)">02</button>
                             <button class="switch-btn" data-value="03" onclick="switchPattern('03', this)">03</button>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </header>
+
+            <!-- 棋子展示模块 -->
+            <div class="tile-showcase" id="tile-showcase">
+                <div class="showcase-tiles" id="showcase-tiles">
+                    <!-- 棋子切图将通过 JS 动态生成 -->
+                </div>
+            </div>
 
             <div class="game-container">
                 <div class="grid-container" id="grid"></div>
@@ -91,15 +98,17 @@
                 </div>
 
                 <div class="game-won" id="game-won">
-                    <h2>🎉 恭喜!</h2>
-                    <p>达成 Lv.11！</p>
-                    <button class="btn" onclick="continueGame()">Continue Game</button>
+                    <h2>🎉</h2>
+                    <h2>Cycle Complete!</h2>
+                    <p>有两把刷子</p>
+                    <button class="btn" onclick="continueCycle()">Continue</button>
                 </div>
 
                 <div class="game-won game-super-won" id="game-super-won">
-                    <h2>🏆 LEGENDARY!</h2>
-                    <p class="super-won-text">达成 Lv.12 - 传奇成就!</p>
-                    <button class="btn" onclick="continueSuperGame()">Continue</button>
+                    <h2>🏆</h2>
+                    <h2>LEGENDARY!</h2>
+                    <p class="super-won-text">完成所有 Cycle - 传奇成就!</p>
+                    <button class="btn" onclick="newGame()">New Game</button>
                 </div>
 
                 <!-- Restart 确认弹窗 -->
@@ -160,7 +169,6 @@
             <div class="instructions">
                 <p class="instruction-pc"><strong>玩法：</strong>使用方向键 ↑↓←→ 移动</p>
                 <p class="instruction-mobile"><strong>玩法：</strong>在棋盘内滑动移动</p>
-                <p>相同等级合并升级，目标 Lv.11！</p>
             </div>
 
             <div id="toast" class="toast">点击两个不同棋子进行交换</div>

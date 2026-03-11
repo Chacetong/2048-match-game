@@ -28,3 +28,11 @@ let switchCount = 2;
 // 升级道具
 let isUpgradeMode = false;
 let upgradeCount = 2;
+
+// Cycle 系统 (lv13 触发循环)
+let cycleLevel = 0;  // 当前 cycle 层级，0=初始(set-01), 1=set-02, 2=set-03...
+const MAX_PATTERN_SET = 5;  // 最大 pattern set 数量 (set-01 到 set-05)
+const CYCLE_TRIGGER_LEVEL = 13;  // 触发 cycle 的等级
+
+// 展示模块 - 记录用户达到过的最高等级
+let maxLevelReached = 0;  // 本局游戏达到过的最高等级

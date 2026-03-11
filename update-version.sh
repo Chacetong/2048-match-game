@@ -60,7 +60,7 @@ echo "✅ Updated $JS_FILE"
 sed -i '' "s/data-version>[^<]*/data-version>$NEW_VERSION/" $HTML_FILE
 # Update start page version and date
 sed -i '' "s/TileFuse v[^<]*/TileFuse v$NEW_VERSION/" $HTML_FILE
-sed -i '' "s/Updated: [0-9]*/Updated: $(date -u +"%Y-%m-%d")/" $HTML_FILE
+sed -i '' "s/Updated: [0-9-]*/Updated: $(date -u +"%Y-%m-%d")/" $HTML_FILE
 echo "✅ Updated $HTML_FILE"
 
 # Stage changes
