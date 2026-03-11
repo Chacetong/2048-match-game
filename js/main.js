@@ -54,6 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 重新开始确认弹窗
 function showRestartConfirm() {
+    // 退出其他道具的激活状态
+    if (typeof isSwitchMode !== 'undefined' && isSwitchMode) exitSwitchMode();
+    if (typeof isUpgradeMode !== 'undefined' && isUpgradeMode) exitUpgradeMode();
+    
     document.getElementById('restart-confirm').classList.add('show');
 }
 

@@ -73,7 +73,19 @@ function updateUpgradeButton() {
  */
 function toggleUpgradeMode() {
     if (isAnimating || !isUpgradeAvailable()) return;
-    isUpgradeMode ? exitUpgradeMode() : enterUpgradeMode();
+    
+    // 如果当前已激活，则退出
+    if (isUpgradeMode) {
+        exitUpgradeMode();
+        return;
+    }
+    
+    // 如果 Switch 处于激活状态，先退出 Switch
+    if (typeof isSwitchMode !== 'undefined' && isSwitchMode) {
+        exitSwitchMode();
+    }
+    
+    enterUpgradeMode();
 }
 
 /**
@@ -82,6 +94,7 @@ function toggleUpgradeMode() {
 function enterUpgradeMode() {
     isUpgradeMode = true;
     document.getElementById('prop-upgrade').classList.add('active');
+    highlightMaxLevelTiles();
     attachUpgradeClickHandlers();
     showToast('点击一个非最高等级的棋子进行升级');
 }
@@ -92,6 +105,7 @@ function enterUpgradeMode() {
 function exitUpgradeMode() {
     isUpgradeMode = false;
     document.getElementById('prop-upgrade').classList.remove('active');
+    removeMaxLevelTileHighlight();
     detachUpgradeClickHandlers();
 }
 
@@ -120,6 +134,33 @@ function detachUpgradeClickHandlers() {
             const cell = document.getElementById(`cell-${r}-${c}`);
             cell.dataset.upgradeClick = '';
             cell.onclick = null;
+        }
+    }
+}
+
+/**
+ * 高亮显示最高等级的棋子（降低透明度表示不可用）
+ */
+function highlightMaxLevelTiles() {
+    const maxLevel = getCurrentMaxLevel();
+    for (let r = 0; r < gridSize; r++) {
+        for (let c = 0; c < gridSize; c++) {
+            if (board[r][c] === maxLevel && board[r][c] !== 0) {
+                const cell = document.getElementById(`cell-${r}-${c}`);
+                cell.classList.add('upgrade-disabled-tile');
+            }
+        }
+    }
+}
+
+/**
+ * 移除最高等级棋子的高亮
+ */
+function removeMaxLevelTileHighlight() {
+    for (let r = 0; r < gridSize; r++) {
+        for (let c = 0; c < gridSize; c++) {
+            const cell = document.getElementById(`cell-${r}-${c}`);
+            cell.classList.remove('upgrade-disabled-tile');
         }
     }
 }

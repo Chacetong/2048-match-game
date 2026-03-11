@@ -1,6 +1,6 @@
 # TileFuse Version Info
 
-**Current Version:** 1.2.1
+**Current Version:** 1.2.2
 **Author:** Chace Tong
 **Last Updated:** 2026-03-11
 

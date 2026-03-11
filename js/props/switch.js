@@ -41,7 +41,19 @@ function updateSwitchButton() {
 
 function toggleSwitchMode() {
     if (isAnimating || !isSwitchAvailable()) return;
-    isSwitchMode ? exitSwitchMode() : enterSwitchMode();
+    
+    // 如果当前已激活，则退出
+    if (isSwitchMode) {
+        exitSwitchMode();
+        return;
+    }
+    
+    // 如果 Upgrade 处于激活状态，先退出 Upgrade
+    if (typeof isUpgradeMode !== 'undefined' && isUpgradeMode) {
+        exitUpgradeMode();
+    }
+    
+    enterSwitchMode();
 }
 
 function enterSwitchMode() {

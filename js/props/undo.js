@@ -22,6 +22,10 @@ function updateUndoButton() {
 function undoMove() {
     if (historyStack.length === 0 || isAnimating) return;
 
+    // 退出其他道具的激活状态
+    if (typeof isSwitchMode !== 'undefined' && isSwitchMode) exitSwitchMode();
+    if (typeof isUpgradeMode !== 'undefined' && isUpgradeMode) exitUpgradeMode();
+
     // 从历史栈弹出最后一个状态
     const lastState = historyStack.pop();
 
