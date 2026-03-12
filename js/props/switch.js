@@ -71,7 +71,10 @@ function exitSwitchMode() {
         if (cell) cell.classList.remove('cell-selected');
         selectedCell = null;
     }
-    document.getElementById('prop-switch').classList.remove('active');
+    const switchItem = document.getElementById('prop-switch');
+    switchItem.classList.remove('active');
+    // 移动端：强制重绘以触发样式更新
+    void switchItem.offsetWidth;
     detachSwitchClickHandlers();
 }
 

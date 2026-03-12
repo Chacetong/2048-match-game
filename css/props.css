@@ -22,8 +22,18 @@
     opacity: 0.5;
 }
 
-.prop-item:not(.disabled):hover {
-    transform: scale(1.1);
+/* 仅在支持 hover 的设备上应用 hover 效果（避免移动端点击后一直保持放大） */
+@media (hover: hover) {
+    .prop-item:not(.disabled):hover {
+        transform: scale(1.1);
+    }
+}
+
+/* 移动端：点按时缩放，松开时恢复 */
+@media (hover: none) {
+    .prop-item:not(.disabled):active {
+        transform: scale(1.1);
+    }
 }
 
 .prop-img {

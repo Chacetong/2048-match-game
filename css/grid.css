@@ -87,6 +87,8 @@
     pointer-events: none;
     display: none;
     z-index: 2;
+    /* 支持 cycle 切换动画 */
+    will-change: filter, opacity;
 }
 
 .grid-cell.has-image .tile-pattern {

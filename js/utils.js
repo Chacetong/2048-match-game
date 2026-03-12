@@ -12,6 +12,7 @@ function showToast(msg) {
 
 function hideOverlays() {
     document.getElementById('game-over').classList.remove('show');
+    document.getElementById('level-won').classList.remove('show');
     document.getElementById('game-won').classList.remove('show');
 }
 

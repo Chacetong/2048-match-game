@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="start-version">
-            <span class="version-text">v2.0.1</span>
+            <span class="version-text">v2.1.0</span>
             <span class="update-time">2026/03/12 04:40</span>
         </div>
     </div>
@@ -74,22 +74,25 @@
                 <div class="grid-container" id="grid"></div>
 
                 <div class="game-over" id="game-over">
-                    <h2>Game End</h2>
+                    <h2 class="over-title">Game Over</h2>
+                    <p class="over-desc">同志还需努力</p>
                     <button class="btn" onclick="newGame()">New Game</button>
+                </div>
+
+                <div class="level-won" id="level-won">
+                    <h2 class="won-icon">🎉</h2>
+                    <h2 class="won-title">Level Complete!</h2>
+                    <p class="won-desc">哎哟，不错哦～</p>
+                    <!-- <p class="auto-continue-hint">3s 后自动进入下一关...</p> -->
                 </div>
 
                 <div class="game-won" id="game-won">
-                    <h2>🎉</h2>
-                    <h2>Cycle Complete!</h2>
-                    <p>有两把刷子</p>
-                    <button class="btn" onclick="continueCycle()">Continue</button>
-                </div>
-
-                <div class="game-won game-super-won" id="game-super-won">
-                    <h2>🏆</h2>
-                    <h2>LEGENDARY!</h2>
-                    <p class="super-won-text">完成所有 Cycle - 传奇成就!</p>
-                    <button class="btn" onclick="newGame()">New Game</button>
+                    <h2 class="won-icon">🏆</h2>
+                    <h2 class="won-title">LEGENDARY!</h2>
+                    <p class="won-desc game-won-desc">无敌是多么，多么寂寞！</p>
+                    <a class="btn"
+                        href="https://www.feishu.cn/invitation/page/add_contact/?token=a65la9f8-eb49-4cc6-95a4-94cd933356c6"
+                        target="_blank">点击联络，请你喝奶茶</a>
                 </div>
 
             </div>
