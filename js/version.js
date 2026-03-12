@@ -6,9 +6,9 @@
 
 const APP_INFO = {
     name: 'TileFuse',
-    version: '1.3.0',
+    version: '2.0.0',
     author: 'Chace Tong',
-    lastUpdated: '2026-03-11T14:56:58+08:00'
+    lastUpdated: '2026-03-12T04:33:10+08:00'
 };
 
 /**

@@ -18,9 +18,10 @@
     <div id="start-page" class="start-page">
         <div class="start-content">
             <img src="Assets/text-logo.png" alt="TileFuse" class="start-logo">
-            <p class="start-subtitle">选择难度开始游戏</p>
+            <p class="start-subtitle">Select difficulty to start the game</p>
             <div class="difficulty-buttons">
                 <button class="btn-difficulty btn-easy" onclick="startGame('Easy')">
+                    <span class="recommend-tag">Recommend</span>
                     <span class="difficulty-name">Easy</span>
                     <span class="difficulty-size">5 × 5</span>
                 </button>
@@ -35,8 +36,8 @@
             </div>
         </div>
         <div class="start-version">
-            <span class="version-text">TileFuse v1.3.0</span>
-            <span class="update-time">Updated: 2026-03-11-03-11</span>
+            <span class="version-text">TileFuse v2.0.0</span>
+            <span class="update-time">Updated: 2026-03-12-03-12</span>
         </div>
     </div>
 
@@ -44,42 +45,22 @@
     <div id="game-page" class="game-page hidden">
         <div class="container">
             <header>
-                <img src="Assets/text-logo-white.png" alt="TileFuse" class="logo-img-game">
-                <div class="score-container">
-                    <div class="score-box">
-                        <div class="score-label">得分</div>
-                        <div class="score-value" id="score">0</div>
+                <div class="header-top">
+                    <div class="score-container">
+                        <div class="score-box">
+                            <div class="score-label">Score</div>
+                            <div class="score-value" id="score">0</div>
+                        </div>
+                        <div class="score-box">
+                            <div class="score-label">Best Score</div>
+                            <div class="score-value" id="best-score">0</div>
+                        </div>
                     </div>
-                    <div class="score-box">
-                        <div class="score-label">最高分</div>
-                        <div class="score-value" id="best-score">0</div>
+                    <div class="setting-btn" id="setting-btn" onclick="showRestartConfirm()" title="Setting">
+                        <img src="Assets/setting.png" alt="Setting" class="setting-icon">
                     </div>
                 </div>
 
-                <div class="style-container">
-                    <div class="style-group">
-                        <span class="style-label">Plate</span>
-                        <div class="style-switch" id="plate-switch">
-                            <div class="switch-slider"></div>
-                            <button class="switch-btn active" data-value="theme-01"
-                                onclick="switchStyle('theme-01', this)">01</button>
-                            <button class="switch-btn" data-value="theme-02"
-                                onclick="switchStyle('theme-02', this)">02</button>
-                            <button class="switch-btn" data-value="theme-03"
-                                onclick="switchStyle('theme-03', this)">03</button>
-                        </div>
-                    </div>
-                    <!-- <div class="style-group">
-                        <span class="style-label">Pattern</span>
-                        <div class="style-switch" id="pattern-switch">
-                            <div class="switch-slider"></div>
-                            <button class="switch-btn active" data-value="01"
-                                onclick="switchPattern('01', this)">01</button>
-                            <button class="switch-btn" data-value="02" onclick="switchPattern('02', this)">02</button>
-                            <button class="switch-btn" data-value="03" onclick="switchPattern('03', this)">03</button>
-                        </div>
-                    </div> -->
-                </div>
             </header>
 
             <!-- 棋子展示模块 -->
@@ -111,27 +92,31 @@
                     <button class="btn" onclick="newGame()">New Game</button>
                 </div>
 
-                <!-- Restart 确认弹窗 -->
-                <div class="confirm-dialog" id="restart-confirm">
-                    <div class="confirm-content">
-                        <h3>确认重新开始游戏?</h3>
-                        <div class="confirm-buttons">
-                            <button class="btn btn-confirm" onclick="confirmRestart()">Restart</button>
-                            <button class="btn btn-quit" onclick="quitToMenu()">Quit</button>
-                            <button class="btn btn-cancel" onclick="cancelRestart()">Cancel</button>
-                        </div>
-                    </div>
-                </div>
             </div>
 
-            <div class="mobile-controls">
-                <div class="mobile-row">
-                    <button class="mobile-btn" onclick="move('up')">↑</button>
-                </div>
-                <div class="mobile-row">
-                    <button class="mobile-btn" onclick="move('left')">←</button>
-                    <button class="mobile-btn" onclick="move('down')">↓</button>
-                    <button class="mobile-btn" onclick="move('right')">→</button>
+            <!-- Settings 弹窗 - 覆盖整个界面 -->
+            <div class="confirm-dialog" id="restart-confirm">
+                <div class="confirm-content">
+                    <h2 class="dialog-title">Settings</h2>
+                    <div class="style-container">
+                        <div class="style-group">
+                            <span class="style-label">Plate</span>
+                            <div class="style-switch" id="plate-switch">
+                                <div class="switch-slider"></div>
+                                <button class="switch-btn active" data-value="theme-01"
+                                    onclick="switchStyle('theme-01', this)">01</button>
+                                <button class="switch-btn" data-value="theme-02"
+                                    onclick="switchStyle('theme-02', this)">02</button>
+                                <button class="switch-btn" data-value="theme-03"
+                                    onclick="switchStyle('theme-03', this)">03</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="confirm-buttons">
+                        <button class="btn btn-confirm" onclick="confirmRestart()">Restart</button>
+                        <button class="btn btn-quit" onclick="quitToMenu()">Quit</button>
+                        <button class="btn btn-cancel" onclick="cancelRestart()">OK</button>
+                    </div>
                 </div>
             </div>
 
@@ -160,11 +145,17 @@
                     </div>
                     <span class="prop-label">Upgrade</span>
                 </div>
-                <div class="prop-item" id="prop-restart" onclick="showRestartConfirm()" title="重新开始游戏">
-                    <img src="Assets/props/restart-active.png" alt="重新开始" id="prop-restart-img" class="prop-img">
-                    <span class="prop-label">Restart</span>
-                </div>
             </div>
+
+            <div class="mobile-controls">
+                <button class="mobile-btn" onclick="move('left')">←</button>
+                <div class="mobile-col-middle">
+                    <button class="mobile-btn" onclick="move('up')">↑</button>
+                    <button class="mobile-btn" onclick="move('down')">↓</button>
+                </div>
+                <button class="mobile-btn" onclick="move('right')">→</button>
+            </div>
+
 
             <div class="instructions">
                 <p class="instruction-pc"><strong>玩法：</strong>使用方向键 ↑↓←→ 移动</p>

@@ -22,7 +22,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 0;
 }
 
 .container {
@@ -32,7 +32,7 @@ body {
 
 header {
     text-align: center;
-    margin: 28px 0 20px 0;
+    margin: 0 0 20px;
 }
 
 .logo-img {
@@ -55,11 +55,12 @@ h1 {
     color: white;
     border: none;
     padding: 12px 28px;
-    border-radius: 12px;
+    border-radius: 16px;
     font-size: 24px;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    min-height: 48px;
 }
 
 .btn:hover {
@@ -79,16 +80,47 @@ h1 {
     margin: 20px 0;
 }
 
+/* Header 顶部区域 */
+.header-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    /* margin: 12px 0; */
+}
+
 /* 分数区域 */
 .score-container {
     display: flex;
     justify-content: center;
-    gap: 8px;
-    margin: 12px 0;
+    /* gap: 8px; */
+}
+
+/* Setting 按钮 */
+.setting-btn {
+    position: absolute;
+    right: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0.8;
+}
+
+.setting-btn:hover {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+.setting-icon {
+    width: 48px;
+    height: 50px;
+    object-fit: contain;
 }
 
 .score-box {
-    background: rgba(255, 255, 255, 0.2);
+    /* background: rgba(255, 255, 255, 0.2); */
     padding: 8px 8px;
     width: 128px;
     text-align: center;
@@ -114,7 +146,7 @@ h1 {
     justify-content: center;
     align-items: center;
     gap: 24px;
-    margin-top: 20px;
+    margin: 20px 0;
 }
 
 .style-group {
@@ -132,9 +164,9 @@ h1 {
 .style-switch {
     position: relative;
     display: flex;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgb(242 237 232);
     border-radius: 20px;
-    padding: 3px;
+    padding: 4px;
     gap: 0px;
 }
 
@@ -153,7 +185,7 @@ h1 {
 .switch-btn {
     position: relative;
     z-index: 1;
-    width: 36px;
+    width: 52px;
     height: 32px;
     border: none;
     background: transparent;
@@ -174,23 +206,21 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 16px 0 8px;
+    margin: 12px 0;
     padding: 8px 12px;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.6);
     border-radius: 16px;
 }
 
 .showcase-tiles {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
     gap: 4px;
-    flex-wrap: nowrap;
+    width: 100%;
 }
 
 .showcase-tile {
-    width: 36px;
-    height: 36px;
+    aspect-ratio: 1 / 1;
     border-radius: 6px;
     overflow: hidden;
     position: relative;
@@ -228,11 +258,11 @@ h1 {
 
 /* 游戏容器 */
 .game-container {
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, .9);
     padding: 16px;
     border-radius: 32px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    margin: 12px 0 24px 0;
+    margin: 12px 0;
     position: relative;
 }
 
@@ -320,35 +350,9 @@ h1 {
     transform: translateY(-2px);
 }
 
-/* 移动端控制 */
+/* 移动端控制 - 默认隐藏 */
 .mobile-controls {
     display: none;
-    margin-top: 20px;
-}
-
-.mobile-row {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin: 10px 0;
-}
-
-.mobile-btn {
-    width: 70px;
-    height: 70px;
-    background: rgba(255, 255, 255, 0.6);
-    border: none;
-    border-radius: 50%;
-    font-size: 24px;
-    color: #8b7e6a;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.mobile-btn:active {
-    background: rgba(255, 255, 255, 0.9);
-    transform: scale(0.95);
 }
 
 /* ==================== 启动页样式 ==================== */
@@ -359,7 +363,8 @@ h1 {
     justify-content: center;
     min-height: 100vh;
     width: 100%;
-    padding: 20px;
+    padding: 32px 24px;
+    background-color: #ffd9a5;
 }
 
 .start-page.hidden {
@@ -376,31 +381,50 @@ h1 {
     max-width: 320px;
     width: 80%;
     height: auto;
-    margin-bottom: 20px;
+    margin: 20px;
 }
 
 .start-subtitle {
-    color: #8b7e6a;
+    color: #00000040;
     font-size: 16px;
-    margin-bottom: 40px;
+    margin: 40px;
 }
 
 .difficulty-buttons {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    margin: 32px auto 48px auto;
 }
 
 .btn-difficulty {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 30px;
+    padding: 24px 32px;
     border: none;
-    border-radius: 16px;
+    border-radius: 24px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 0px rgba(0, 0, 0, 1);
+    position: relative;
+}
+
+/* Recommend 标签 */
+.recommend-tag {
+    position: absolute;
+    top: -8px;
+    right: -55px;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, #ed9b38 0%, #ee965a 100%);
+    color: white;
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 12px 18px 0px 12px;
+    box-shadow: 0 2px 4px rgb(103 37 17 / 12%);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
 }
 
 .btn-difficulty:hover {
@@ -418,26 +442,29 @@ h1 {
 }
 
 .difficulty-size {
-    font-size: 14px;
+    font-size: 16px;
     opacity: 0.8;
 }
 
 /* Easy - 绿色 */
 .btn-easy {
-    background: linear-gradient(135deg, #7cb87c 0%, #5a9a5a 100%);
+    background: linear-gradient(180deg, #5faf5f 0%, #5c9d5c 100%);
+    box-shadow: 0px 4px 0px #448b44;
     color: white;
 }
 
 /* Normal - 蓝色 */
 .btn-normal {
-    background: linear-gradient(135deg, #6b9ac4 0%, #4a7aa4 100%);
+    background: linear-gradient(180deg, #3493e1 0%, #4f88ba 100%);
+    box-shadow: 0px 4px 0px #396d9b;
     color: white;
 }
 
 /* Hard - 红色 */
 .btn-hard {
-    background: linear-gradient(135deg, #c97b7b 0%, #a85a5a 100%);
     color: white;
+    background: linear-gradient(180deg, #d9507f 0%, #c93869 100%);
+    box-shadow: 0px 4px 0px #9d3055;
 }
 
 /* 启动页版本信息 */
@@ -470,7 +497,7 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 6% 4%;
 }
 
 .game-page.hidden {
@@ -489,7 +516,7 @@ h1 {
 /* ==================== Quit 按钮 ==================== */
 
 .btn-quit {
-    background: #8b7e6a;
+    background: #bb3f5d;
     color: white;
 }
 
@@ -519,7 +546,37 @@ h1 {
     }
 
     .mobile-controls {
-        display: block;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        margin-top: 20px;
+    }
+
+    .mobile-col-middle {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .mobile-btn {
+        width: 60px;
+        height: 60px;
+        background: rgba(255, 255, 255, 0.6);
+        border: none;
+        border-radius: 25%;
+        font-size: 24px;
+        color: #8b7e6a;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .mobile-btn:active {
+        background: rgba(255, 255, 255, 0.9);
+        transform: scale(0.95);
     }
 
     /* 移动端显示移动端说明，隐藏PC说明 */
@@ -529,5 +586,16 @@ h1 {
 
     .instruction-mobile {
         display: block;
+    }
+
+    /* 移动端 tile-showcase 2行展示 */
+    .showcase-tiles {
+        grid-template-columns: repeat(6, 1fr);
+        column-gap: 12px;
+        padding: 0 32px;
+    }
+
+    .showcase-tile {
+        border-radius: 4px;
     }
 }
