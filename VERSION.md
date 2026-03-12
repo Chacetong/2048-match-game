@@ -1,6 +1,6 @@
 # TileFuse Version Info
 
-**Current Version:** 1.2.2
+**Current Version:** 2.1.0
 **Author:** Chace Tong
 **Last Updated:** 2026-03-11
 
@@ -33,7 +33,5 @@ git push
 ```
 
 ## Version Files
-- `version.json` - Source of truth for version info
-- `js/version.js` - JavaScript module with version functions
 - `index.html` - Version display in footer
 - `CHANGELOG.md` - Version history
