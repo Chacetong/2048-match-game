@@ -7,8 +7,8 @@ function createGridDOM() {
     const grid = document.getElementById('grid');
     grid.innerHTML = '';
     updateGridStyle();
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             const cell = document.createElement('div');
             cell.className = `grid-cell row-${r}`;
             cell.id = `cell-${r}-${c}`;
@@ -76,8 +76,8 @@ function updateCell(r, c, isNew = false, isMerged = false) {
 
 // 渲染整个棋盘
 function render() {
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             renderTile(document.getElementById(`cell-${r}-${c}`), board[r][c]);
         }
     }
@@ -90,8 +90,8 @@ function render() {
 // 添加新棋子
 function addNewTile() {
     const empty = [];
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             if (board[r][c] === 0) empty.push({ r, c });
         }
     }

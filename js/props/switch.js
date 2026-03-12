@@ -6,8 +6,8 @@ function isSwitchAvailable() {
     if (switchCount <= 0) return false;
 
     const tiles = [];
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             if (board[r][c] !== 0) tiles.push(board[r][c]);
         }
     }
@@ -79,8 +79,8 @@ function exitSwitchMode() {
 }
 
 function attachSwitchClickHandlers() {
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             if (board[r][c] !== 0) {
                 const cell = document.getElementById(`cell-${r}-${c}`);
                 cell.dataset.switchClick = 'true';
@@ -91,8 +91,8 @@ function attachSwitchClickHandlers() {
 }
 
 function detachSwitchClickHandlers() {
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             const cell = document.getElementById(`cell-${r}-${c}`);
             cell.dataset.switchClick = '';
             cell.onclick = null;

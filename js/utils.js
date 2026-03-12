@@ -35,12 +35,12 @@ function updateScore() {
  * 检查游戏结束
  */
 function isGameOver() {
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             const lv = board[r][c];
             if (lv === 0) return false;
-            if (c < gridSize - 1 && lv === board[r][c + 1]) return false;
-            if (r < gridSize - 1 && lv === board[r + 1][c]) return false;
+            if (c < gridCols - 1 && lv === board[r][c + 1]) return false;
+            if (r < gridRows - 1 && lv === board[r + 1][c]) return false;
         }
     }
     return true;

@@ -7,6 +7,8 @@ const HIDE_TEXT = true;
 
 // 棋盘大小 (由难度决定)
 let gridSize = 4;
+let gridRows = 4;  // 行数
+let gridCols = 4;  // 列数
 
 // 主题设置
 let currentStyleSet = 'theme-01';
@@ -71,6 +73,10 @@ function switchPattern(patternSet, btn) {
 
 function updateGridStyle() {
     const grid = document.getElementById('grid');
-    grid.classList.remove('grid-size-3', 'grid-size-4', 'grid-size-5');
-    grid.classList.add(`grid-size-${gridSize}`);
+    grid.classList.remove('grid-size-3', 'grid-size-4', 'grid-size-5', 'grid-size-3x4');
+    if (gridRows === 3 && gridCols === 4) {
+        grid.classList.add('grid-size-3x4');
+    } else {
+        grid.classList.add(`grid-size-${gridSize}`);
+    }
 }

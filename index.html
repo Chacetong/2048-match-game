@@ -20,18 +20,18 @@
             <img src="Assets/text-logo.png" alt="TileFuse" class="start-logo">
             <p class="start-subtitle">Select difficulty to start the game</p>
             <div class="difficulty-buttons">
-                <button class="btn-difficulty btn-easy" onclick="startGame('Easy')">
-                    <span class="recommend-tag">Recommend</span>
-                    <span class="difficulty-name">Easy</span>
-                    <span class="difficulty-size">5 × 5</span>
-                </button>
                 <button class="btn-difficulty btn-normal" onclick="startGame('Normal')">
+                    <span class="recommend-tag">Recommend</span>
                     <span class="difficulty-name">Normal</span>
-                    <span class="difficulty-size">4 × 4</span>
+                    <span class="difficulty-size">5 × 5</span>
                 </button>
                 <button class="btn-difficulty btn-hard" onclick="startGame('Hard')">
                     <span class="difficulty-name">Hard</span>
-                    <span class="difficulty-size">3 × 3</span>
+                    <span class="difficulty-size">4 × 4</span>
+                </button>
+                <button class="btn-difficulty btn-nightmare" onclick="startGame('Nightmare')">
+                    <span class="difficulty-name">Nightmare</span>
+                    <span class="difficulty-size">3 × 4</span>
                 </button>
             </div>
         </div>
@@ -81,8 +81,8 @@
 
                 <div class="level-won" id="level-won">
                     <h2 class="won-icon">🎉</h2>
-                    <h2 class="won-title">Level Complete!</h2>
-                    <p class="won-desc">哎哟，不错哦～</p>
+                    <h2 class="won-title">哎哟，不错哦～</h2>
+                    <p class="won-desc">Level Complete!</p>
                     <!-- <p class="auto-continue-hint">3s 后自动进入下一关...</p> -->
                 </div>
 

@@ -14,20 +14,20 @@ const SPAWN_RULES = [
     {
         name: "阶段 4 (Lv.4/Lv.5)",
         condition: (maxLv, minLv) => maxLv >= 12 && minLv >= 4,
-        levels: [3, 4, 5],
-        weights: [2, 2, 1]
+        levels: [4, 5],
+        weights: [4, 1]
     },
     {
         name: "阶段 3 (Lv.3/Lv.4)",
         condition: (maxLv, minLv) => maxLv >= 11 && minLv >= 3,
-        levels: [2, 3, 4],
-        weights: [2, 2, 1]
+        levels: [3, 4],
+        weights: [3, 1]
     },
     {
         name: "阶段 2 (Lv.2/Lv.3)",
         condition: (maxLv, minLv) => maxLv >= 10 && minLv >= 2,
-        levels: [1, 2, 3],
-        weights: [2, 2, 1]
+        levels: [2, 3],
+        weights: [2.5, 1]
     },
     {
         name: "阶段 1 (Lv.1/Lv.2)",
@@ -44,8 +44,8 @@ const SPAWN_RULES = [
  */
 function getMaxLevel() {
     let max = 0;
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             if (board[r][c] > max) max = board[r][c];
         }
     }
@@ -57,8 +57,8 @@ function getMaxLevel() {
  */
 function getMinLevel() {
     let min = Infinity;
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             const lv = board[r][c];
             if (lv !== 0 && lv < min) min = lv;
         }

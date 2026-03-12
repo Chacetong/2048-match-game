@@ -4,19 +4,22 @@
 
 // 注意: CYCLE_TRIGGER_LEVEL 和 MAX_PATTERN_SET 定义在 state.js 中
 
-const DIFFICULTY_SIZES = {
-    'Easy': 5,
-    'Normal': 4,
-    'Hard': 3
+const DIFFICULTY_CONFIG = {
+    'Normal': { size: 5, rows: 5, cols: 5 },
+    'Hard': { size: 4, rows: 4, cols: 4 },
+    'Nightmare': { size: 3, rows: 3, cols: 4 }
 };
 
 /**
  * 开始游戏
- * @param {string} difficulty - 'Easy', 'Normal', 'Hard'
+ * @param {string} difficulty - 'Normal', 'Hard', 'Nightmare'
  */
 function startGame(difficulty) {
     currentDifficulty = difficulty;
-    gridSize = DIFFICULTY_SIZES[difficulty];
+    const config = DIFFICULTY_CONFIG[difficulty];
+    gridSize = config.size;
+    gridRows = config.rows;
+    gridCols = config.cols;
 
     // 加载该难度的最高分
     bestScore = loadBestScore(difficulty);
@@ -75,7 +78,7 @@ function saveBestScore() {
 // 初始化
 function init() {
     createGridDOM();
-    board = Array(gridSize).fill(null).map(() => Array(gridSize).fill(0));
+    board = Array(gridRows).fill(null).map(() => Array(gridCols).fill(0));
     score = 0;
     hasWon = false;
     hasSuperWon = false;
@@ -84,7 +87,7 @@ function init() {
     hasShownLv12Toast = false;  // 重置 lv12 提示标记
     currentPatternSet = '01';  // 重置 pattern set
     historyStack = [];
-    switchCount = 1;
+    switchCount = 2;
     upgradeCount = 1;
     exitSwitchMode();
     exitUpgradeMode();
@@ -97,8 +100,8 @@ function init() {
     // 确保 maxLevelReached 正确设置为当前棋盘最高等级
     //（addNewTile 中也会更新，但这里双重确认）
     let currentMax = 0;
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             if (board[r][c] > currentMax) {
                 currentMax = board[r][c];
             }
@@ -136,8 +139,8 @@ function continueSuperGame() {
 function mapTilesToLowLevels() {
     // 获取所有非空棋子的等级
     const levels = [];
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             if (board[r][c] !== 0) {
                 levels.push(board[r][c]);
             }
@@ -165,8 +168,8 @@ function mapTilesToLowLevels() {
     }
 
     // 应用映射到棋盘
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             if (board[r][c] !== 0) {
                 board[r][c] = getMappedLevel(board[r][c]);
             }
@@ -248,17 +251,17 @@ function continueCycle() {
     // 切换到下一个 set (01 -> 02 -> 03)
     currentPatternSet = String(cycleLevel + 1).padStart(2, '0');
 
-    // 重置道具次数
-    switchCount = 1;
-    upgradeCount = 1;
+    // 增加道具次数（有上限）
+    switchCount = Math.min(switchCount + 1, 2);
+    upgradeCount = Math.min(upgradeCount + 1, 1);
 
     // 重置 lv12 提示标记（新的 cycle 可以再次显示）
     hasShownLv12Toast = false;
 
     // 重置 maxLevelReached 为映射后的最高等级
     maxLevelReached = 0;
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             if (board[r][c] > maxLevelReached) {
                 maxLevelReached = board[r][c];
             }
@@ -291,8 +294,8 @@ function move(direction) {
     });
 
     const preRects = {};
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             if (board[r][c] !== 0) {
                 preRects[`${r}-${c}`] = document.getElementById(`cell-${r}-${c}`).getBoundingClientRect();
             }
@@ -307,7 +310,7 @@ function move(direction) {
     function slideRow(row, rowIdx, isCol = false, colIdx = 0) {
         const orig = [...row];
         const nonZero = [];
-        for (let i = 0; i < gridSize; i++) {
+        for (let i = 0; i < row.length; i++) {
             if (row[i] !== 0) nonZero.push({ lv: row[i], idx: i });
         }
 
@@ -365,7 +368,7 @@ function move(direction) {
             }
         }
 
-        const result = Array(gridSize).fill(0);
+        const result = Array(isCol ? gridRows : gridCols).fill(0);
         for (let j = 0; j < items.length; j++) {
             result[j] = items[j].lv;
             items[j].fromIdx.forEach(from => {
@@ -386,12 +389,12 @@ function move(direction) {
     }
 
     if (direction === 'left') {
-        for (let r = 0; r < gridSize; r++) {
+        for (let r = 0; r < gridRows; r++) {
             const { result, changed } = slideRow(board[r], r);
             if (changed) { moved = true; board[r] = result; }
         }
     } else if (direction === 'right') {
-        for (let r = 0; r < gridSize; r++) {
+        for (let r = 0; r < gridRows; r++) {
             const rev = [...board[r]].reverse();
             const { result, changed } = slideRow(rev, r);
             if (changed) {
@@ -400,40 +403,40 @@ function move(direction) {
                 Object.keys(tileMovements).filter(k => k.startsWith(`${r}-`)).forEach(k => {
                     const [, c] = k.split('-').map(Number);
                     const m = tileMovements[k];
-                    if (m.fr === r) m.fc = (gridSize - 1) - m.fc;
-                    tileMovements[`${r}-${(gridSize - 1) - c}`] = m;
+                    if (m.fr === r) m.fc = (gridCols - 1) - m.fc;
+                    tileMovements[`${r}-${(gridCols - 1) - c}`] = m;
                     delete tileMovements[k];
                 });
-                mergedPositions.forEach(p => { if (p.r === r) p.c = (gridSize - 1) - p.c; });
+                mergedPositions.forEach(p => { if (p.r === r) p.c = (gridCols - 1) - p.c; });
             }
         }
     } else if (direction === 'up') {
-        for (let c = 0; c < gridSize; c++) {
+        for (let c = 0; c < gridCols; c++) {
             const col = [];
-            for (let r = 0; r < gridSize; r++) col.push(board[r][c]);
+            for (let r = 0; r < gridRows; r++) col.push(board[r][c]);
             const { result, changed } = slideRow(col, 0, true, c);
             if (changed) {
                 moved = true;
-                for (let r = 0; r < gridSize; r++) board[r][c] = result[r];
+                for (let r = 0; r < gridRows; r++) board[r][c] = result[r];
             }
         }
     } else if (direction === 'down') {
-        for (let c = 0; c < gridSize; c++) {
+        for (let c = 0; c < gridCols; c++) {
             const col = [];
-            for (let r = 0; r < gridSize; r++) col.push(board[r][c]);
+            for (let r = 0; r < gridRows; r++) col.push(board[r][c]);
             const { result, changed } = slideRow([...col].reverse(), 0, true, c);
             if (changed) {
                 moved = true;
                 const final = [...result].reverse();
-                for (let r = 0; r < gridSize; r++) board[r][c] = final[r];
+                for (let r = 0; r < gridRows; r++) board[r][c] = final[r];
                 Object.keys(tileMovements).filter(k => k.endsWith(`-${c}`)).forEach(k => {
                     const [r] = k.split('-').map(Number);
                     const m = tileMovements[k];
-                    if (m.fc === c) m.fr = (gridSize - 1) - m.fr;
-                    tileMovements[`${(gridSize - 1) - r}-${c}`] = m;
+                    if (m.fc === c) m.fr = (gridRows - 1) - m.fr;
+                    tileMovements[`${(gridRows - 1) - r}-${c}`] = m;
                     delete tileMovements[k];
                 });
-                mergedPositions.forEach(p => { if (p.c === c) p.r = (gridSize - 1) - p.r; });
+                mergedPositions.forEach(p => { if (p.c === c) p.r = (gridRows - 1) - p.r; });
             }
         }
     }
@@ -447,8 +450,8 @@ function move(direction) {
     isAnimating = true;
     updateScore();
 
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             const cell = document.getElementById(`cell-${r}-${c}`);
             const merged = mergedPositions.find(p => p.r === r && p.c === c);
             renderTile(cell, merged ? merged.fromLv : board[r][c], false, false);
@@ -495,17 +498,16 @@ function move(direction) {
                 }
             }
 
-            // 检查游戏是否结束（在添加新棋子之前检查）
-            if (isGameOver()) {
-                suppressNewTile = true;  // 触发 game-over，不产生新棋子
-                saveBestScore();
-                setTimeout(() => document.getElementById('game-over').classList.add('show'), 300);
-            }
-
-            // 如果没有触发胜利/结束弹窗，则产生新棋子
+            // 如果没有触发胜利弹窗，则产生新棋子
             if (!suppressNewTile) {
                 const newTile = addNewTile();
                 if (newTile) updateCell(newTile.r, newTile.c, true, false);
+            }
+
+            // 检查游戏是否结束（在添加新棋子之后检查）
+            if (isGameOver()) {
+                saveBestScore();
+                setTimeout(() => document.getElementById('game-over').classList.add('show'), 300);
             }
             mergedPositions.forEach(p => updateCell(p.r, p.c, false, true));
 
@@ -572,8 +574,8 @@ function updateTileShowcase() {
  * 控制台命令: levelUpAll()
  */
 function levelUpAll() {
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             if (board[r][c] !== 0) {
                 board[r][c]++;
             }
@@ -591,8 +593,8 @@ function levelUpAll() {
  * 控制台命令: levelDownAll()
  */
 function levelDownAll() {
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             if (board[r][c] > 1) {
                 board[r][c]--;
             }
@@ -610,7 +612,7 @@ function levelDownAll() {
  * 控制台命令: setTile(0, 0, 12) // 将第0行第0列设为lv12
  */
 function setTile(r, c, level) {
-    if (r < 0 || r >= gridSize || c < 0 || c >= gridSize) {
+    if (r < 0 || r >= gridRows || c < 0 || c >= gridCols) {
         console.error('❌ 位置超出棋盘范围');
         return;
     }
@@ -631,7 +633,7 @@ function setTile(r, c, level) {
  */
 function showBoard() {
     console.log('当前棋盘等级:');
-    for (let r = 0; r < gridSize; r++) {
+    for (let r = 0; r < gridRows; r++) {
         const row = board[r].map(lv => lv === 0 ? '·' : String(lv).padStart(2, '0')).join(' ');
         console.log(`  第${r}行: ${row}`);
     }
@@ -646,11 +648,12 @@ function updateLevelWonMessage() {
         "哎哟，不错哦～",
         "确实有两把刷子",
         "强得有点不讲武德了",
-        "已遁入无人之境",
-        "你就是乐信天花板!"
+        "你就是乐信天花板！",
+        "已遁入无人之境"
+
     ];
     const index = Math.min(levelWonMessageIndex, messages.length - 1);
-    const descEl = document.querySelector('#level-won .won-desc');
+    const descEl = document.querySelector('#level-won .won-title');
     if (descEl) {
         descEl.textContent = messages[index];
     }

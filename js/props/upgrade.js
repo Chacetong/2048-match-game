@@ -9,8 +9,8 @@
  */
 function getCurrentMaxLevel() {
     let maxLevel = 0;
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             if (board[r][c] > maxLevel) {
                 maxLevel = board[r][c];
             }
@@ -33,8 +33,8 @@ function isUpgradeAvailable() {
     if (maxLevel <= 1) return false;
 
     // 检查是否有非最高等级的棋子
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             if (board[r][c] !== 0 && board[r][c] < maxLevel) {
                 return true;
             }
@@ -114,8 +114,8 @@ function exitUpgradeMode() {
  */
 function attachUpgradeClickHandlers() {
     const maxLevel = getCurrentMaxLevel();
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             if (board[r][c] !== 0) {
                 const cell = document.getElementById(`cell-${r}-${c}`);
                 cell.dataset.upgradeClick = 'true';
@@ -129,8 +129,8 @@ function attachUpgradeClickHandlers() {
  * 移除升级点击处理器
  */
 function detachUpgradeClickHandlers() {
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             const cell = document.getElementById(`cell-${r}-${c}`);
             cell.dataset.upgradeClick = '';
             cell.onclick = null;
@@ -143,8 +143,8 @@ function detachUpgradeClickHandlers() {
  */
 function highlightMaxLevelTiles() {
     const maxLevel = getCurrentMaxLevel();
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             if (board[r][c] === maxLevel && board[r][c] !== 0) {
                 const cell = document.getElementById(`cell-${r}-${c}`);
                 cell.classList.add('upgrade-disabled-tile');
@@ -157,8 +157,8 @@ function highlightMaxLevelTiles() {
  * 移除最高等级棋子的高亮
  */
 function removeMaxLevelTileHighlight() {
-    for (let r = 0; r < gridSize; r++) {
-        for (let c = 0; c < gridSize; c++) {
+    for (let r = 0; r < gridRows; r++) {
+        for (let c = 0; c < gridCols; c++) {
             const cell = document.getElementById(`cell-${r}-${c}`);
             cell.classList.remove('upgrade-disabled-tile');
         }
